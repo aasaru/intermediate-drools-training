@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Drools Online Course Sample Code and Study Materials (c) by Juhan Aasaru.
+
+   Drools Online Course Sample Code and Study Materials is licensed under a
+   Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+
+   You should have received a copy of the license along with this
+   work. If not, see <http://creativecommons.org/licenses/by-nc-nd/4.0/>.
+  -->
+
+<kmodule
+  xmlns="http://www.drools.org/xsd/kmodule">
+
+
+
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step1">
+    <ksession name="VisaFeeCalculationStep1"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step2">
+    <ksession name="VisaFeeCalculationStep2"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step3">
+    <ksession name="VisaFeeCalculationStep3"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step4">
+    <ksession name="VisaFeeCalculationStep4"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step5">
+    <ksession name="VisaFeeCalculationStep5"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step6">
+    <ksession name="VisaFeeCalculationStep6"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step7">
+    <ksession name="VisaFeeCalculationStep7"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step8">
+    <ksession name="VisaFeeCalculationStep8"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step9">
+    <ksession name="VisaFeeCalculationStep9"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step10">
+    <ksession name="VisaFeeCalculationStep10"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step11">
+    <ksession name="VisaFeeCalculationStep11"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step12">
+    <ksession name="VisaFeeCalculationStep12"/>
+  </kbase>
+
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step1">
+    <ksession name="ComplexEventProcessingStep1"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step2">
+    <ksession name="ComplexEventProcessingStep2"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step3">
+    <ksession name="ComplexEventProcessingStep3"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step4">
+    <ksession name="ComplexEventProcessingStep4"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step5">
+    <ksession name="ComplexEventProcessingStep5"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step6">
+    <ksession name="ComplexEventProcessingStep6"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step7">
+    <ksession name="ComplexEventProcessingStep7"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step8">
+    <ksession name="ComplexEventProcessingStep8"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step9">
+    <ksession name="ComplexEventProcessingStep9"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step10">
+    <ksession name="ComplexEventProcessingStep10"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section06.step11">
+    <ksession name="ComplexEventProcessingStep11"/>
+  </kbase>
+
+
+</kmodule>

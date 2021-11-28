@@ -1,0 +1,54 @@
+
+// when agent that speaks the language
+// connect with longest waiting (forall)
+
+package io.github.aasaru.drools.intermediate.section06.step7
+
+import io.github.aasaru.drools.intermediate.section06.Agent;
+import io.github.aasaru.drools.intermediate.section06.Call;
+import java.util.List // NB!!!
+
+import java.time.LocalDate;
+
+rule "Connect calls with free agents"
+	dialect "java"
+	when
+		$agent: Agent( )
+		$callToPickUp: Call($agent.speaks(this.language) )
+		forall (
+		  $call : Call( $agent.speaks(this.language) ),
+			  Call( this == $call, this.callStart >= $callToPickUp.callStart)
+		)
+	then
+		System.out.println( $agent + " takes " + $callToPickUp);
+		// delete from session
+		delete($agent);
+		delete($callToPickUp);
+end
+
+/*
+rule "More than 2 waiting in line"
+	dialect "java"
+	when
+		$queue : List( size > 2 )
+                         from collect( Call( ) )
+	then
+		// also output calls from list?
+		System.out.println( "Warning! " + $queue.size() + " calls in line.");
+end
+*/
+
+// alternate syntax for a single function with return type
+rule "Average wait time"
+	dialect "java"
+	when
+		// IDEE saaks iga keele kohta käima minna, kui siia panna lang
+
+		$averageDuration : Number() // siia saaks contrainte panna
+				   from accumulate( Call( $duration : getDurationInNanoSeconds() ),
+                                   average( $duration ) )
+
+	then
+		System.out.println( "Average call duration " + $averageDuration+ " nanoseconds");
+end
+// selle saaks pikalt ümber kirjutada ja lisada max

@@ -1,0 +1,32 @@
+
+// when agent that speaks the language
+// connect with longest waiting (forall)
+
+package io.github.aasaru.drools.intermediate.section06.step2
+
+import io.github.aasaru.drools.intermediate.section06.Agent;
+import io.github.aasaru.drools.intermediate.section06.Call;
+
+import java.util.List // NB!!!
+import java.time.LocalDate;
+
+// ILMA FORALL
+
+rule "Connect calls with free agents"
+	dialect "java"
+	when
+		$agent: Agent( $spokenLanguates : speaksLanguages )
+		$agentLanguage: String() from $spokenLanguates
+		$callToPickUp: Call( this.language == $agentLanguage)
+
+	then
+		System.out.println( $agent + " takes " + $callToPickUp);
+		// delete from session
+		delete($agent);
+		delete($callToPickUp);
+end
+
+
+
+
+// täiendus võiks olla, et on mingi agent, kes juhendab ainult neid, kes on läbi veebi sisse logitud
