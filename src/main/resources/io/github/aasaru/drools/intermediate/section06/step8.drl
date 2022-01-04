@@ -1,4 +1,4 @@
-package io.github.aasaru.drools.intermediate.section06.step6
+package io.github.aasaru.drools.intermediate.section06.step8
 
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
@@ -39,17 +39,14 @@ end
 
 rule "Output queue size"
 	dialect "java"
+	// repeat every 5 seconds
+	timer ( cron: 0/5 * * * * ? )
 	when
-		$queue : List() from collect( Call( ) )
+		$queue : List( size >=0 )
+                         from collect( Call( ) )
 	then
 		System.out.println( "Queue size: " + $queue.size() + "");
 end
 
-rule "Halt session if there are no calls"
-  dialect "java"
-  when
-    not Call( )
-  then
-    System.out.println( "Now calls in queue. Halting" );
-    drools.halt();
-end
+
+// täiendus võiks olla, et on mingi agent, kes juhendab ainult neid, kes on läbi veebi sisse logitud

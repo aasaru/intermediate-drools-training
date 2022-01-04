@@ -1,54 +1,56 @@
-
-// when agent that speaks the language
-// connect with longest waiting (forall)
-
 package io.github.aasaru.drools.intermediate.section06.step7
 
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
-import java.util.List // NB!!!
+import io.github.aasaru.drools.intermediate.section06.CallService;
+import io.github.aasaru.drools.intermediate.section06.AgentRepository;
 
-import java.time.LocalDate;
+import java.util.List; // TODO needed?
+import java.time.LocalDate; // TODO needed?
 
-rule "Connect calls with free agents"
+global CallService callService;
+global AgentRepository agentRepository;
+
+rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
 	when
-		$agent: Agent( )
-		$callToPickUp: Call($agent.speaks(this.language) )
+		$agent: Agent( $agentLanguages : speaksLanguages )
+		$agentLanguage: String() from $agentLanguages
+		$callToPickUp: Call( this.language == $agentLanguage )
 		forall (
-		  $call : Call( $agent.speaks(this.language) ),
-			  Call( this == $call, this.callStart >= $callToPickUp.callStart)
+			$suitableCall : Call( $agent.speaks(this.language) ),
+			Call( this == $suitableCall, this.callStart >= $callToPickUp.callStart )
 		)
 	then
-		System.out.println( $agent + " takes " + $callToPickUp);
-		// delete from session
+		callService.connectWithAgent($callToPickUp, $agent);
 		delete($agent);
 		delete($callToPickUp);
 end
 
-/*
-rule "More than 2 waiting in line"
+rule "Nobody at work who speaks the language"
 	dialect "java"
 	when
-		$queue : List( size > 2 )
-                         from collect( Call( ) )
+		$callToHangUp: Call( )
+		not( Agent( this.speaks($callToHangUp.language) ) from agentRepository.getAgentsAtWork())
 	then
-		// also output calls from list?
-		System.out.println( "Warning! " + $queue.size() + " calls in line.");
+		System.out.println( "There are no agents currently at work who speak '" + $callToHangUp.getLanguage() + "'. Hanging up " + $callToHangUp);
+		delete($callToHangUp);
 end
-*/
 
-// alternate syntax for a single function with return type
-rule "Average wait time"
+rule "Output queue size"
 	dialect "java"
 	when
-		// IDEE saaks iga keele kohta käima minna, kui siia panna lang
-
-		$averageDuration : Number() // siia saaks contrainte panna
-				   from accumulate( Call( $duration : getDurationInNanoSeconds() ),
-                                   average( $duration ) )
-
+		$queue : List() from collect( Call( ) )
 	then
-		System.out.println( "Average call duration " + $averageDuration+ " nanoseconds");
+		System.out.println( "Queue size: " + $queue.size() + "");
 end
-// selle saaks pikalt ümber kirjutada ja lisada max
+
+rule "Halt session if there are no calls"
+  dialect "java"
+  timer ( int: 5s )
+  when
+    not Call( )
+  then
+    System.out.println( "Now calls in queue. Halting" );
+    drools.halt();
+end

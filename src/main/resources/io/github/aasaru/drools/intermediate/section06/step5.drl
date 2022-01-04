@@ -1,4 +1,4 @@
-package io.github.aasaru.drools.intermediate.section06.step6
+package io.github.aasaru.drools.intermediate.section06.step5
 
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
@@ -39,17 +39,30 @@ end
 
 rule "Output queue size"
 	dialect "java"
+	salience 100
 	when
-		$queue : List() from collect( Call( ) )
+		$queue : List() from collect( Call() )
 	then
 		System.out.println( "Queue size: " + $queue.size() + "");
 end
 
-rule "Halt session if there are no calls"
-  dialect "java"
-  when
-    not Call( )
-  then
-    System.out.println( "Now calls in queue. Halting" );
-    drools.halt();
+rule "Available agents speaking French"
+	dialect "java"
+	when
+		$frenchSpeakers : List() from collect( Agent( this.speaks("French") ) )
+	then
+		System.out.println( "Available agents speaking French: " + $frenchSpeakers.size() + "");
+end
+
+// TODO replace german with something different
+rule "All German speaking agents are currently available"
+	dialect "java"
+	when
+		$germanSpeakersAvailable : List(size > 0) from collect( Agent( this.speaks("German") ) )
+		$germanSpeakersAtWork : List(size == $germanSpeakersAvailable.size())
+			from collect( Agent(this.speaks("German") )
+				from agentRepository.getAgentsAtWork()
+			)
+	then
+		System.out.println( "All German speaking agents at work are available. At work: " + $germanSpeakersAtWork.size());
 end

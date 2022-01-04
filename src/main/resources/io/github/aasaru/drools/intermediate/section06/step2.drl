@@ -1,32 +1,34 @@
-
-// when agent that speaks the language
-// connect with longest waiting (forall)
-
 package io.github.aasaru.drools.intermediate.section06.step2
 
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
+import io.github.aasaru.drools.intermediate.section06.CallService;
+import io.github.aasaru.drools.intermediate.section06.AgentRepository
 
-import java.util.List // NB!!!
+import java.util.List;
 import java.time.LocalDate;
 
-// ILMA FORALL
+global CallService callService;
+global AgentRepository agentRepository
 
-rule "Connect calls with free agents"
+rule "Connect an agent with a suitable call"
 	dialect "java"
 	when
-		$agent: Agent( $spokenLanguates : speaksLanguages )
-		$agentLanguage: String() from $spokenLanguates
-		$callToPickUp: Call( this.language == $agentLanguage)
-
+		$agent: Agent( $agentLanguages : speaksLanguages )
+		$agentLanguage: String() from $agentLanguages
+		$callToPickUp: Call( this.language == $agentLanguage )
 	then
-		System.out.println( $agent + " takes " + $callToPickUp);
-		// delete from session
+		callService.connectWithAgent($callToPickUp, $agent);
 		delete($agent);
 		delete($callToPickUp);
 end
 
-
-
-
-// täiendus võiks olla, et on mingi agent, kes juhendab ainult neid, kes on läbi veebi sisse logitud
+rule "Nobody at work who speaks the language"
+	dialect "java"
+	when
+		$callToHangUp: Call( )
+		not( Agent( this.speaks($callToHangUp.language) ) from agentRepository.getAgentsAtWork())
+	then
+		System.out.println( "There are no agents currently at work who speak '" + $callToHangUp.getLanguage() + "'. Hanging up " + $callToHangUp);
+		delete($callToHangUp);
+end

@@ -1,0 +1,51 @@
+
+// when agent that speaks the language
+// connect with longest waiting (forall)
+
+package io.github.aasaru.drools.intermediate.section06.step9
+
+import io.github.aasaru.drools.intermediate.section06.Agent;
+import io.github.aasaru.drools.intermediate.section06.Call;
+
+import java.util.List // NB!!!
+import java.time.LocalDate;
+
+rule "Connect calls with free agents"
+	dialect "java"
+	when
+		$agent: Agent( )
+		$callToPickUp: Call($agent.speaks(this.language) )
+		forall (
+		  $call : Call( $agent.speaks(this.language) ),
+			  Call( this == $call, this.callStart >= $callToPickUp.callStart)
+		)
+	then
+		System.out.println( $agent + " takes " + $callToPickUp);
+		// delete from session
+		delete($agent);
+		delete($callToPickUp);
+end
+
+rule "Nobody at work who speaks the language"
+	dialect "java"
+	when
+		$callToHangUp: Call( )
+		not( Agent( this.speaks($callToHangUp.language) ) from agentRepository.getAgentsAtWork())
+	then
+		System.out.println( "There are no agents currently at work who speak '" + $callToHangUp.getLanguage() + "'. Hanging up " + $callToHangUp);
+		delete($callToHangUp);
+end
+
+rule "Output queue size"
+	dialect "java"
+	// repeat every 5 seconds
+	timer ( cron: 0/5 * * * * ? )
+	when
+		$queue : List( size >=0 )
+                         from collect( Call( ) )
+	then
+		System.out.println( "Queue size: " + $queue.size() + "");
+end
+
+
+// täiendus võiks olla, et on mingi agent, kes juhendab ainult neid, kes on läbi veebi sisse logitud

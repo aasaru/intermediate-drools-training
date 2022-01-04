@@ -29,7 +29,7 @@ public class Agent {
     public String toString() {
         return "Agent{" +
              "name='" + name + '\'' +
-             ",speaksLanguages='" + String.join(",", speaksLanguages) + '\'' +
+             ",speaksLanguages='" + String.join("','", speaksLanguages) + '\'' +
              '}';
     }
 }

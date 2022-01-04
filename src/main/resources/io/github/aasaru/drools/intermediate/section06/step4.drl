@@ -1,39 +1,47 @@
-
-// when agent that speaks the language
-// connect with longest waiting (forall)
-
 package io.github.aasaru.drools.intermediate.section06.step4
 
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
+import io.github.aasaru.drools.intermediate.section06.CallService;
+import io.github.aasaru.drools.intermediate.section06.AgentRepository;
 
-import java.util.List // NB!!!
-import java.time.LocalDate;
+import java.util.List; // TODO needed?
+import java.time.LocalDate; // TODO needed?
 
-rule "Connect calls with free agents"
+global CallService callService;
+global AgentRepository agentRepository;
+
+rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
 	when
-		$agent: Agent( )
-		$callToPickUp: Call($agent.speaks(this.language) )
+		$agent: Agent( $agentLanguages : speaksLanguages )
+		$agentLanguage: String() from $agentLanguages
+		$callToPickUp: Call( this.language == $agentLanguage )
 		forall (
-		  $call : Call( $agent.speaks(this.language) ),
-			  Call( this == $call, this.callStart >= $callToPickUp.callStart)
+			$suitableCall : Call( $agent.speaks(this.language) ),
+			Call( this == $suitableCall, this.callStart >= $callToPickUp.callStart )
 		)
 	then
-		System.out.println( $agent + " takes " + $callToPickUp);
-		// delete from session
+		callService.connectWithAgent($callToPickUp, $agent);
 		delete($agent);
 		delete($callToPickUp);
 end
 
-rule "Output queue size"
+rule "Nobody at work who speaks the language"
 	dialect "java"
 	when
-		$queue : List()
-                         from collect( Call( ) )
+		$callToHangUp: Call( )
+		not( Agent( this.speaks($callToHangUp.language) ) from agentRepository.getAgentsAtWork())
+	then
+		System.out.println( "There are no agents currently at work who speak '" + $callToHangUp.getLanguage() + "'. Hanging up " + $callToHangUp);
+		delete($callToHangUp);
+end
+
+rule "Output queue size"
+	dialect "java"
+	salience 100
+	when
+		$queue : List() from collect( Call() )
 	then
 		System.out.println( "Queue size: " + $queue.size() + "");
 end
-
-
-// täiendus võiks olla, et on mingi agent, kes juhendab ainult neid, kes on läbi veebi sisse logitud
