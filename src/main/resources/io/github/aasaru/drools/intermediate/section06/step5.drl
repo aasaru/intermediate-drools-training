@@ -3,13 +3,12 @@ package io.github.aasaru.drools.intermediate.section06.step5
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
 import io.github.aasaru.drools.intermediate.section06.CallService;
-import io.github.aasaru.drools.intermediate.section06.AgentRepository;
+import io.github.aasaru.drools.intermediate.section06.AgentService;
 
-import java.util.List; // TODO needed?
-import java.time.LocalDate; // TODO needed?
+import java.util.List;
 
 global CallService callService;
-global AgentRepository agentRepository;
+global AgentService agentService;
 
 rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
@@ -31,9 +30,9 @@ rule "Nobody at work who speaks the language"
 	dialect "java"
 	when
 		$callToHangUp: Call( )
-		not( Agent( this.speaks($callToHangUp.language) ) from agentRepository.getAgentsAtWork())
+		not( Agent( this.speaks($callToHangUp.language) ) from agentService.getAgentsAtWork())
 	then
-		System.out.println( "There are no agents currently at work who speak '" + $callToHangUp.getLanguage() + "'. Hanging up " + $callToHangUp);
+		callService.dropCall($callToHangUp, "There are no agents currently at work who speak " + $callToHangUp.getLanguage());
 		delete($callToHangUp);
 end
 
@@ -43,26 +42,26 @@ rule "Output queue size"
 	when
 		$queue : List() from collect( Call() )
 	then
-		System.out.println( "Queue size: " + $queue.size() + "");
+		callService.reportQueueSize( $queue.size() );
 end
 
 rule "Available agents speaking French"
 	dialect "java"
+	salience 50
 	when
 		$frenchSpeakers : List() from collect( Agent( this.speaks("French") ) )
 	then
-		System.out.println( "Available agents speaking French: " + $frenchSpeakers.size() + "");
+		agentService.reportAgentStats("Available agents speaking French: " + $frenchSpeakers.size());
 end
 
-// TODO replace german with something different
 rule "All German speaking agents are currently available"
 	dialect "java"
 	when
 		$germanSpeakersAvailable : List(size > 0) from collect( Agent( this.speaks("German") ) )
 		$germanSpeakersAtWork : List(size == $germanSpeakersAvailable.size())
 			from collect( Agent(this.speaks("German") )
-				from agentRepository.getAgentsAtWork()
+				from agentService.getAgentsAtWork()
 			)
 	then
-		System.out.println( "All German speaking agents at work are available. At work: " + $germanSpeakersAtWork.size());
+		agentService.reportAgentStats( "All "+ $germanSpeakersAtWork.size()+" German speaking agents are currently available.");
 end

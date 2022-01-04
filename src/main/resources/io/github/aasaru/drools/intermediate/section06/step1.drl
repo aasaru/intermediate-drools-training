@@ -4,9 +4,6 @@ import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
 import io.github.aasaru.drools.intermediate.section06.CallService;
 
-import java.util.List;
-import java.time.LocalDate;
-
 global CallService callService;
 
 rule "Connect an agent with a suitable call"

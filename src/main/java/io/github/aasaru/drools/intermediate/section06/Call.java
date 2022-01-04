@@ -3,8 +3,6 @@ package io.github.aasaru.drools.intermediate.section06;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import sun.management.Agent;
-
 public class Call {
 
     String callerPhoneNumber;
@@ -18,6 +16,8 @@ public class Call {
 
     // if agent==null => is in waiting line
     Agent agent;
+
+    String dropReason;
 
     public Call(String callerPhoneNumber, String lang) {
         this.callerPhoneNumber = callerPhoneNumber;
@@ -35,6 +35,18 @@ public class Call {
 
     public Long getDurationInNanoSeconds() {
         return ChronoUnit.NANOS.between(callStart, LocalDateTime.now());
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+    public void setDropReason(String dropReason) {
+        this.dropReason = dropReason;
+    }
+
+    public String getCallerPhoneNumber() {
+        return callerPhoneNumber;
     }
 
     @Override

@@ -1,27 +1,27 @@
-
-// when agent that speaks the language
-// connect with longest waiting (forall)
-
 package io.github.aasaru.drools.intermediate.section06.step9
 
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
+import io.github.aasaru.drools.intermediate.section06.CallService;
+import io.github.aasaru.drools.intermediate.section06.AgentService;
 
-import java.util.List // NB!!!
-import java.time.LocalDate;
+import java.util.List;
 
-rule "Connect calls with free agents"
+global CallService callService;
+global AgentService agentService;
+
+rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
 	when
-		$agent: Agent( )
-		$callToPickUp: Call($agent.speaks(this.language) )
+		$agent: Agent( $agentLanguages : speaksLanguages )
+		$agentLanguage: String() from $agentLanguages
+		$callToPickUp: Call( this.language == $agentLanguage )
 		forall (
-		  $call : Call( $agent.speaks(this.language) ),
-			  Call( this == $call, this.callStart >= $callToPickUp.callStart)
+			$suitableCall : Call( $agent.speaks(this.language) ),
+			Call( this == $suitableCall, this.callStart >= $callToPickUp.callStart )
 		)
 	then
-		System.out.println( $agent + " takes " + $callToPickUp);
-		// delete from session
+		callService.connectWithAgent($callToPickUp, $agent);
 		delete($agent);
 		delete($callToPickUp);
 end
@@ -30,22 +30,23 @@ rule "Nobody at work who speaks the language"
 	dialect "java"
 	when
 		$callToHangUp: Call( )
-		not( Agent( this.speaks($callToHangUp.language) ) from agentRepository.getAgentsAtWork())
+		not( Agent( this.speaks($callToHangUp.language) ) from agentService.getAgentsAtWork())
 	then
-		System.out.println( "There are no agents currently at work who speak '" + $callToHangUp.getLanguage() + "'. Hanging up " + $callToHangUp);
+		callService.dropCall($callToHangUp, "There are no agents currently at work who speak " + $callToHangUp.getLanguage());
 		delete($callToHangUp);
 end
 
 rule "Output queue size"
 	dialect "java"
-	// repeat every 5 seconds
-	timer ( cron: 0/5 * * * * ? )
+	salience 100
+	// repeat every 2 seconds
+	timer ( cron: 0/2 * * * * ? )
 	when
-		$queue : List( size >=0 )
-                         from collect( Call( ) )
+		$queue : List() from collect( Call() )
 	then
-		System.out.println( "Queue size: " + $queue.size() + "");
+		callService.reportQueueSize( $queue.size() );
 end
 
+// two rules reporting available agent stats are removed (to reduce noise in logs)
 
-// täiendus võiks olla, et on mingi agent, kes juhendab ainult neid, kes on läbi veebi sisse logitud
+// rule that halts the session has been removed

@@ -2,7 +2,6 @@ package io.github.aasaru.drools.intermediate.section06;
 
 import static io.github.aasaru.drools.intermediate.section06.ComplexEventProcessing.sleepMs;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 
 import io.github.aasaru.drools.intermediate.Common;
@@ -12,18 +11,22 @@ import org.kie.api.runtime.KieSession;
 public class ComplexEventProcessing {
 
     // TODO move to agent repo
-    public static final Agent SUSAN = new Agent("Susan", Arrays.asList("German", "Japanese"));
-    public static final Agent BOB = new Agent("Bob", Arrays.asList("Spanish", "French"));
-    public static final Agent DAVE = new Agent("Dave", Arrays.asList("English", "French"));
-    public static final Agent LEONARDO = new Agent("Leonardo", Arrays.asList("English", "Italian"));
+    public static final Agent MARTINA = new Agent("Martina", Arrays.asList("German", "Japanese"));
+    public static final Agent BOB = new Agent("Bob", Arrays.asList("English", "French"));
+    public static final Agent DAVE = new Agent("Dave", Arrays.asList("French", "English"));
+    public static final Agent PIERRE = new Agent("Pierre", Arrays.asList("French", "German"));
 
     public static void main(String[] args) {
+        execute(Common.promptForStep(6, args, 1, 9), new CallService(), new AgentService());
+    }
 
-        int step = Common.promptForStep(6, args, 1, 12);
+    static DroolsThread droolsThread;
 
+    static void execute(int step, CallService callService, AgentService agentService) {
         boolean activeMode = (step >= 5);
 
         if (step == 4) {
+            System.out.println("here...");
             if (Common.promptForYesNoQuestion("Do you want to run in active mode?")) {
                 activeMode = true;
             }
@@ -38,74 +41,61 @@ public class ComplexEventProcessing {
         }
 
 
-        DroolsThread t;
+
 
         if (activeMode) {
-            t = new FiringUntilHaltDroolsThread(step);
+            droolsThread = new FiringUntilHaltDroolsThread(step);
         }
         else {
-            t = new PeriodicallyFiringDroolsThread(step);
+            droolsThread = new PeriodicallyFiringDroolsThread(step);
+        }
+        KieSession kieSession = droolsThread.getKieSession();
+
+        kieSession.setGlobal( "callService", callService);
+        if (step >= 2) {
+            kieSession.setGlobal( "agentService", agentService);
         }
 
 
-
-        // event - call started
-        // inimene valib keele
-        // duration: call_start, agent_connected
-
-        // mida see FROM võiks küsida, mis on sellest hetkest sõltuv?
-           // mis agendid on vabad?
-
-        // siin saaks näidata seda pidevat jooksutamist
-
-        // kõne sisse =>
-
-
-          // hiljem peaks ka accumulate suutma teha
-           // ja collect
-
-        // võib-olla on
-
-
-        // võib-olla peaks
-
-
-        //
-
-
-        t.start();
+        droolsThread.start();
 
         sleepMs(300);
 
-        t.addFactToSession(new Call("+1111111111111", "English"));
+        droolsThread.addFactToSession(new Call("+1111", "French"));
 
         sleepMs(300);
 
-        t.addFactToSession(new Call("+2222222222222", "French"));
+        droolsThread.addFactToSession(new Call("+2222", "English"));
 
         sleepMs(300);
 
-        t.addFactToSession(new Call("+3333333333333", "Italian"));
-
-        sleepMs(3000);
-
-        t.addFactToSession(SUSAN);
+        droolsThread.addFactToSession(new Call("+3333", "Italian"));
 
         sleepMs(300);
 
-        t.addFactToSession(BOB);
+        droolsThread.addFactToSession(MARTINA);
 
         sleepMs(300);
 
-        t.addFactToSession(DAVE);
-
-        sleepMs(6000);
-
-        t.addFactToSession(LEONARDO); // TODO same person is confusing?
+        droolsThread.addFactToSession(DAVE);
 
         sleepMs(300);
 
-        t.addFactToSession(new Call("+444444444444", "French"));
+        droolsThread.addFactToSession(BOB);
+
+        sleepMs(300);
+
+        droolsThread.addFactToSession(PIERRE);
+
+        sleepMs(300);
+
+        droolsThread.addFactToSession(new Call("+4444", "German"));
+
+        sleepMs(300);
+
+        droolsThread.addFactToSession(new Call("+5555", "German"));
+
+        sleepMs(1000);
 
     }
 
@@ -113,38 +103,37 @@ public class ComplexEventProcessing {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            System.out.println("Thread sleep interrupted");
         }
     }
 
 }
 
 class PeriodicallyFiringDroolsThread extends Thread implements DroolsThread {
-
     int step;
-    KieSession ksession;
+    KieSession kieSession;
 
     public PeriodicallyFiringDroolsThread(int step) {
         this.step = step;
-        ksession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("ComplexEventProcessingStep" + step);
-        ksession.setGlobal( "callService", new CallService());
-        if (step >= 2) {
-            ksession.setGlobal( "agentRepository", new AgentRepository());
-        }
+        kieSession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("ComplexEventProcessingStep" + step);
 
+    }
+
+    @Override
+    public KieSession getKieSession() {
+        return kieSession;
     }
 
     @Override
     public void addFactToSession(Object o) {
         System.out.println("Inserting to session: " + o);
-        ksession.insert(o);
+        kieSession.insert(o);
     }
 
     public void run() {
-        int i = 0;
         while (true) {
-            ksession.fireAllRules();
-            sleepMs(500); // meelega suur
+            kieSession.fireAllRules();
+            sleepMs(500);
         }
     }
 }
@@ -152,29 +141,26 @@ class PeriodicallyFiringDroolsThread extends Thread implements DroolsThread {
 class FiringUntilHaltDroolsThread extends Thread implements DroolsThread {
 
     int step;
-    KieSession ksession;
+    KieSession kieSession;
 
     public FiringUntilHaltDroolsThread(int step) {
         this.step = step;
-        ksession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("ComplexEventProcessingStep" + step);
-        ksession.setGlobal( "callService", new CallService());
-        ksession.setGlobal( "agentRepository", new AgentRepository() );
+        kieSession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("ComplexEventProcessingStep" + step);
+    }
 
+    @Override
+    public KieSession getKieSession() {
+        return kieSession;
     }
 
     public void addFactToSession(Object o) {
         System.out.println("Inserting to session: " + o);
-        ksession.insert(o);
-
+        kieSession.insert(o);
     }
 
     public void run() {
-        int i = 0;
         System.out.println("Starting the session until halt");
-        ksession.fireUntilHalt();
-            //sleepMs(100);
-
-        //if (ksession.)
-
+        kieSession.fireUntilHalt();
     }
+
 }

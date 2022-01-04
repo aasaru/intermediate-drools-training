@@ -3,13 +3,12 @@ package io.github.aasaru.drools.intermediate.section06.step8
 import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
 import io.github.aasaru.drools.intermediate.section06.CallService;
-import io.github.aasaru.drools.intermediate.section06.AgentRepository;
+import io.github.aasaru.drools.intermediate.section06.AgentService;
 
-import java.util.List; // TODO needed?
-import java.time.LocalDate; // TODO needed?
+import java.util.List;
 
 global CallService callService;
-global AgentRepository agentRepository;
+global AgentService agentService;
 
 rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
@@ -31,22 +30,23 @@ rule "Nobody at work who speaks the language"
 	dialect "java"
 	when
 		$callToHangUp: Call( )
-		not( Agent( this.speaks($callToHangUp.language) ) from agentRepository.getAgentsAtWork())
+		not( Agent( this.speaks($callToHangUp.language) ) from agentService.getAgentsAtWork())
 	then
-		System.out.println( "There are no agents currently at work who speak '" + $callToHangUp.getLanguage() + "'. Hanging up " + $callToHangUp);
+		callService.dropCall($callToHangUp, "There are no agents currently at work who speak " + $callToHangUp.getLanguage());
 		delete($callToHangUp);
 end
 
 rule "Output queue size"
 	dialect "java"
-	// repeat every 5 seconds
-	timer ( cron: 0/5 * * * * ? )
+	salience 100
+	// repeat every 1 second with initial delay of 0 seconds
+	timer ( int: 0s 1s )
 	when
-		$queue : List( size >=0 )
-                         from collect( Call( ) )
+		$queue : List() from collect( Call() )
 	then
-		System.out.println( "Queue size: " + $queue.size() + "");
+		callService.reportQueueSize( $queue.size() );
 end
 
+// two rules reporting available agent stats are removed (to reduce noise in logs)
 
-// täiendus võiks olla, et on mingi agent, kes juhendab ainult neid, kes on läbi veebi sisse logitud
+// rule that halts the session has been removed

@@ -78,12 +78,7 @@
   <kbase packages="io.github.aasaru.drools.intermediate.section06.step9">
     <ksession name="ComplexEventProcessingStep9"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step10">
-    <ksession name="ComplexEventProcessingStep10"/>
-  </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step11">
-    <ksession name="ComplexEventProcessingStep11"/>
-  </kbase>
+
 
 
 </kmodule>

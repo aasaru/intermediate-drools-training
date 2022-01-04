@@ -8,7 +8,6 @@ import io.github.aasaru.drools.intermediate.section06.Agent;
 import io.github.aasaru.drools.intermediate.section06.Call;
 import java.util.List // NB!!!
 
-import java.time.LocalDate;
 
 rule "Connect calls with free agents"
 	dialect "java"
