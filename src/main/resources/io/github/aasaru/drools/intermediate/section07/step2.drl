@@ -1,0 +1,61 @@
+package io.github.aasaru.drools.intermediate.section07.step2
+
+import java.util.Set;
+
+import io.github.aasaru.drools.intermediate.domain.cep.Agent;
+import io.github.aasaru.drools.intermediate.domain.cep.Call;
+
+import io.github.aasaru.drools.intermediate.service.CallService;
+import io.github.aasaru.drools.intermediate.service.AgentService;
+global CallService callService;
+global AgentService agentService;
+
+rule "Report average and max customer value"
+	dialect "mvel"
+	salience 100
+	when
+         $averageCustomerValueInQueue : Double() from accumulate(
+            Call(customerValue > 0, $customerValue: customerValue),
+			init(int customersWithValue = 0; double valueSum = 0.0; ),
+			action( customersWithValue += 1; valueSum += $customerValue; ),
+			reverse(customersWithValue -= 1; valueSum -= $customerValue; ),
+			result( valueSum / customersWithValue )
+		 )
+
+		// max customer value
+
+         $maxCustomerValueInQueue : Number() from accumulate(
+            Call(customerValue > 0, $customerValue: customerValue),
+            init(int maxCustomerValue = 0; ),
+            action( maxCustomerValue = Math.max(maxCustomerValue, $customerValue) ),
+            // reverse not implemented
+            result( maxCustomerValue )
+         )
+
+
+		// if max > 2x average => use that
+
+		// TODO custom function could just return the customers elegible
+
+	then
+		System.out.println("Average customer value " + $averageCustomerValueInQueue + " and max: " + $maxCustomerValueInQueue);
+end
+
+rule "Connect a customer who has twice as average value"
+	dialect "mvel"
+
+	when
+		$averageCustomerValueInQueue : Double() from accumulate(
+			Call(customerValue > 0, $customerValue: customerValue),
+			init(int customersWithValue = 0; double valueSum = 0.0; ),
+			action( customersWithValue += 1; valueSum += $customerValue; ),
+			reverse(customersWithValue -= 1; valueSum -= $customerValue; ),
+			result( valueSum / customersWithValue )
+		)
+
+		$agent: Agent()
+		$call: Call(customerValue > 2 * $averageCustomerValueInQueue, $agent.speaks(this.language))
+	then
+		callService.connectWithAgent($call, $agent);
+		delete($call);
+end

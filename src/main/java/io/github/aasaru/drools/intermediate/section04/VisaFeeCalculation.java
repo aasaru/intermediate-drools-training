@@ -1,18 +1,7 @@
 package io.github.aasaru.drools.intermediate.section04;
 
-import static java.util.Arrays.asList;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import io.github.aasaru.drools.intermediate.Common;
-import io.github.aasaru.drools.intermediate.domain.GroupVisaApplication;
-import io.github.aasaru.drools.intermediate.domain.Passport;
-import io.github.aasaru.drools.intermediate.domain.VisaApplication;
-import io.github.aasaru.drools.intermediate.domain.VisaApplicationFolder;
-import io.github.aasaru.drools.intermediate.domain.VisaFee;
+import io.github.aasaru.drools.intermediate.domain.*;
 import io.github.aasaru.drools.intermediate.repository.ApplicationRepository;
 import org.drools.compiler.compiler.DecisionTableFactory;
 import org.drools.core.builder.conf.impl.DecisionTableConfigurationImpl;
@@ -21,6 +10,13 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.builder.DecisionTableConfiguration;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 
 public class VisaFeeCalculation {
@@ -45,23 +41,25 @@ public class VisaFeeCalculation {
 
         }
 
-            ex(step);
+            execute(step);
 
 
     }
 
-    static Collection<VisaFee> ex(int step) {
+    static Collection<VisaFee> execute(int step) {
         System.out.println("Running step " + step);
 
         if (step <= 8) {
             List<Object> factsToInsert = new ArrayList<>();
 
             factsToInsert.addAll(ApplicationRepository.getGroupVisaApplications());
+            factsToInsert.addAll(ApplicationRepository.getVisaApplications());
             factsToInsert.addAll(ApplicationRepository.getPassports());
 
 
             return executeInSingleSession(step, factsToInsert);
         }
+        // TODO mis selle point on?
         else if (step == 9 || step == 10) {
             return executeInSeparateSessions(step);
         }
@@ -82,7 +80,9 @@ public class VisaFeeCalculation {
 
         System.out.println("==== DROOLS SESSION START ==== ");
         ksession.fireAllRules();
-        ksession.dispose();
+        if (Common.disposeSession) {
+            ksession.dispose();
+        }
         System.out.println("==== DROOLS SESSION END ==== ");
 
         Collection<VisaFee> fees = getVisaFeesFromKieSession(ksession);
@@ -165,7 +165,9 @@ public class VisaFeeCalculation {
         objects1.forEach(ksession::insert);
 
         ksession.fireAllRules();
-        ksession.dispose();
+        if (Common.disposeSession) {
+            ksession.dispose();
+        }
 
         Collection<VisaFee> fees = getVisaFeesFromKieSession(ksession);
 

@@ -1,12 +1,13 @@
 package io.github.aasaru.drools.intermediate.section06;
 
-import static io.github.aasaru.drools.intermediate.section06.ComplexEventProcessing.sleepMs;
+import io.github.aasaru.drools.intermediate.Common;
+import io.github.aasaru.drools.intermediate.domain.cep.Agent;
+import io.github.aasaru.drools.intermediate.domain.cep.Call;
+import io.github.aasaru.drools.intermediate.service.AgentService;
+import io.github.aasaru.drools.intermediate.service.CallService;
+import org.kie.api.runtime.KieSession;
 
 import java.util.Arrays;
-
-import io.github.aasaru.drools.intermediate.Common;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieSession;
 
 public class ComplexEventProcessing {
 
@@ -44,7 +45,7 @@ public class ComplexEventProcessing {
 
 
         if (activeMode) {
-            droolsThread = new FiringUntilHaltDroolsThread(step);
+            droolsThread = new FiringUntilHaltDroolsThread(step, "ComplexEventProcessingStep");
         }
         else {
             droolsThread = new PeriodicallyFiringDroolsThread(step);
@@ -109,58 +110,3 @@ public class ComplexEventProcessing {
 
 }
 
-class PeriodicallyFiringDroolsThread extends Thread implements DroolsThread {
-    int step;
-    KieSession kieSession;
-
-    public PeriodicallyFiringDroolsThread(int step) {
-        this.step = step;
-        kieSession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("ComplexEventProcessingStep" + step);
-
-    }
-
-    @Override
-    public KieSession getKieSession() {
-        return kieSession;
-    }
-
-    @Override
-    public void addFactToSession(Object o) {
-        System.out.println("Inserting to session: " + o);
-        kieSession.insert(o);
-    }
-
-    public void run() {
-        while (true) {
-            kieSession.fireAllRules();
-            sleepMs(500);
-        }
-    }
-}
-
-class FiringUntilHaltDroolsThread extends Thread implements DroolsThread {
-
-    int step;
-    KieSession kieSession;
-
-    public FiringUntilHaltDroolsThread(int step) {
-        this.step = step;
-        kieSession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("ComplexEventProcessingStep" + step);
-    }
-
-    @Override
-    public KieSession getKieSession() {
-        return kieSession;
-    }
-
-    public void addFactToSession(Object o) {
-        System.out.println("Inserting to session: " + o);
-        kieSession.insert(o);
-    }
-
-    public void run() {
-        System.out.println("Starting the session until halt");
-        kieSession.fireUntilHalt();
-    }
-
-}

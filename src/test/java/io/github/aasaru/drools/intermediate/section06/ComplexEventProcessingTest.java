@@ -1,6 +1,9 @@
 package io.github.aasaru.drools.intermediate.section06;
 
 import io.github.aasaru.drools.intermediate.TestUtil;
+import io.github.aasaru.drools.intermediate.domain.cep.Call;
+import io.github.aasaru.drools.intermediate.service.AgentService;
+import io.github.aasaru.drools.intermediate.service.CallService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.kie.api.runtime.KieSession;
@@ -10,7 +13,6 @@ import java.util.stream.Collectors;
 
 import static io.github.aasaru.drools.intermediate.TestUtil.emulateInputFromKeyboard;
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -19,7 +21,6 @@ class ComplexEventProcessingTest {
 
     @Test
     void testStep1() {
-        //Common.disposeSession = false;
         int step = 1;
 
         String kieSessionName = "ComplexEventProcessingStep" + step;
@@ -41,7 +42,6 @@ class ComplexEventProcessingTest {
 
     @Test
     void testStep2() {
-        //Common.disposeSession = false;
         int step = 2;
 
         String kieSessionName = "ComplexEventProcessingStep" + step;
@@ -58,7 +58,6 @@ class ComplexEventProcessingTest {
 
     @Test
     void testStep3() {
-        //Common.disposeSession = false;
         int step = 3;
 
         String kieSessionName = "ComplexEventProcessingStep" + step;
@@ -79,7 +78,6 @@ class ComplexEventProcessingTest {
 
     @Test
     void testStep4_passiveMode() {
-        //Common.disposeSession = false;
         int step = 4;
 
         String kieSessionName = "ComplexEventProcessingStep" + step;
@@ -98,7 +96,6 @@ class ComplexEventProcessingTest {
 
     @Test
     void testStep4_activeMode() {
-        //Common.disposeSession = false;
         int step = 4;
 
         String kieSessionName = "ComplexEventProcessingStep" + step;
@@ -117,7 +114,6 @@ class ComplexEventProcessingTest {
 
     @Test
     void testStep5() {
-        //Common.disposeSession = false;
         int step = 5;
 
         String kieSessionName = "ComplexEventProcessingStep" + step;
@@ -140,7 +136,6 @@ class ComplexEventProcessingTest {
 
     @Test
     void testStep6() {
-        //Common.disposeSession = false;
         int step = 6;
 
         String kieSessionName = "ComplexEventProcessingStep" + step;
@@ -198,8 +193,8 @@ class ComplexEventProcessingTest {
 
         ComplexEventProcessing.execute(step, callService, agentService);
 
-        assertThat(callService.reportedQueueSizes.get(0), is(1));
-        assertThat(callService.reportedQueueSizes.get(1), is(0));
+        assertThat(callService.reportedQueueSizes.get(0), is(0));
+
     }
 
     @AfterEach

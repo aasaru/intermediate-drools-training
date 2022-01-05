@@ -79,6 +79,32 @@
     <ksession name="ComplexEventProcessingStep9"/>
   </kbase>
 
-
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step1">
+    <ksession name="AccumulateCustomerValueStep1"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step2">
+    <ksession name="AccumulateCustomerValueStep2"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step3">
+    <ksession name="AccumulateCustomerValueStep3"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step4">
+    <ksession name="AccumulateCustomerValueStep4"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step5">
+    <ksession name="AccumulateCustomerValueStep5"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step6">
+    <ksession name="AccumulateCustomerValueStep6"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step7">
+    <ksession name="AccumulateCustomerValueStep7"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step8">
+    <ksession name="AccumulateCustomerValueStep8"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section07.step9">
+    <ksession name="AccumulateCustomerValueStep9"/>
+  </kbase>
 
 </kmodule>

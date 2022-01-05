@@ -1,7 +1,6 @@
-package io.github.aasaru.drools.intermediate.section06;
+package io.github.aasaru.drools.intermediate.domain.cep;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class Agent {
 

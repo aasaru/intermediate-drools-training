@@ -1,9 +1,9 @@
 package io.github.aasaru.drools.intermediate.section06.step9
 
-import io.github.aasaru.drools.intermediate.section06.Agent;
-import io.github.aasaru.drools.intermediate.section06.Call;
-import io.github.aasaru.drools.intermediate.section06.CallService;
-import io.github.aasaru.drools.intermediate.section06.AgentService;
+import io.github.aasaru.drools.intermediate.domain.cep.Agent;
+import io.github.aasaru.drools.intermediate.domain.cep.Call;
+import io.github.aasaru.drools.intermediate.service.CallService;
+import io.github.aasaru.drools.intermediate.service.AgentService;
 
 import java.util.List;
 
@@ -39,8 +39,8 @@ end
 rule "Output queue size"
 	dialect "java"
 	salience 100
-	// repeat every 2 seconds
-	timer ( cron: 0/2 * * * * ? )
+	// repeat every 4 seconds
+	timer ( cron: 0/4 * * * * ? )
 	when
 		$queue : List() from collect( Call() )
 	then

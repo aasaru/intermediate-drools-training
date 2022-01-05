@@ -1,18 +1,15 @@
-package io.github.aasaru.drools.intermediate.section04;
+package io.github.aasaru.drools.intermediate.administration;
 
-import java.io.File;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 public class SplitWorkbook {
 
     public static void main(String[] args) throws IOException {
-
 
         for(int stepNo=1; stepNo <= 12; stepNo++) {
             copyToSeparateFile("step" + stepNo);
@@ -21,7 +18,7 @@ public class SplitWorkbook {
     }
 
     private static void copyToSeparateFile(String sheetName) throws IOException {
-        String sourcePath = "/Users/juhan/spaces/github/intermediate-drools-training/src/main/resources/io/github/aasaru/drools/intermediate/section04/section04_all_steps.xls";
+        String sourcePath = "/Users/juhan/spaces/github/intermediate-drools-training/src/main/resources/io/github/aasaru/drools/intermediate/administration/section04_all_steps.xls";
         String targetPath = "/Users/juhan/spaces/github/intermediate-drools-training/src/main/resources/io/github/aasaru/drools/intermediate/section04/" + sheetName
              + "/test_" + sheetName + ".xls";
 

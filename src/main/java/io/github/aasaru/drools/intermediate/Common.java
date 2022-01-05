@@ -16,6 +16,8 @@ import java.io.InputStreamReader;
 
 public class Common {
 
+  public static boolean disposeSession = true;
+
   public static int promptForStep(int section, String[] args, int minStep, int maxStep) {
     String stepStr = "";
     boolean isRulesAsked = false;
@@ -29,7 +31,7 @@ public class Common {
           return Integer.parseInt(stepStr);
         }
         else {
-          System.out.print(String.format("Section %d. Enter step (%d...%d): ", section, minStep, maxStep));
+          System.out.printf("Section %02d. Enter step (%d...%d): ", section, minStep, maxStep);
           stepStr = br.readLine();
         }
 

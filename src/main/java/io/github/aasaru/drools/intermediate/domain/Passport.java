@@ -81,7 +81,7 @@ public class Passport {
 
   @Override
   public String toString() {
-    return String.format("Passport[no:%s, name:%s]", passportNumber, name);
+    return String.format("Passport[no:%s, name:%s, age:%d]", passportNumber, name, age);
   }
 
   public static PassportBuilder newBuilder() {

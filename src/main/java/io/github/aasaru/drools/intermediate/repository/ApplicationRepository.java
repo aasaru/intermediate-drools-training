@@ -10,18 +10,14 @@
 
 package io.github.aasaru.drools.intermediate.repository;
 
-import static java.util.Arrays.asList;
+import io.github.aasaru.drools.intermediate.domain.*;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.aasaru.drools.intermediate.domain.GroupVisaApplication;
-import io.github.aasaru.drools.intermediate.domain.Passport;
-import io.github.aasaru.drools.intermediate.domain.VisaApplication;
-import io.github.aasaru.drools.intermediate.domain.VisaApplicationFolder;
-import io.github.aasaru.drools.intermediate.domain.VisaType;
+import static java.util.Arrays.asList;
 
 public class ApplicationRepository {
 
@@ -94,7 +90,39 @@ public class ApplicationRepository {
     return asList(SARAH_PASSPORT, SIMON_PASSPORT, EMILY_PASSPORT, JAMES_PASSPORT);
   }
 
+  public static List<VisaApplication> getVisaApplications() {
+    List<VisaApplication> visaApplications = new ArrayList<>();
 
+    visaApplications.add(VisaApplication.newBuilder()
+            .withApplicationId(1)
+            .withPassportNumber(SARAH_PASSPORT_NUMBER)
+            .withVisitStartDate(LocalDate.of(2039, Month.DECEMBER, 27))
+            .withVisitEndDate(LocalDate.of(2040, Month.JANUARY, 4))
+            .build());
+
+    visaApplications.add(VisaApplication.newBuilder()
+            .withApplicationId(2)
+            .withPassportNumber(SIMON_PASSPORT_NUMBER)
+            .withVisitStartDate(LocalDate.of(2039, Month.DECEMBER, 27))
+            .withVisitEndDate(LocalDate.of(2039, Month.JANUARY, 4))
+            .build());
+
+    visaApplications.add(VisaApplication.newBuilder()
+            .withApplicationId(3)
+            .withPassportNumber(EMILY_PASSPORT_NUMBER)
+            .withVisitStartDate(LocalDate.of(2044, Month.JANUARY, 1))
+            .withVisitEndDate(LocalDate.of(2044, Month.MARCH, 31))
+            .build());
+
+    visaApplications.add(VisaApplication.newBuilder()
+            .withApplicationId(4)
+            .withPassportNumber(JAMES_PASSPORT_NUMBER)
+            .withVisitStartDate(LocalDate.of(2045, Month.JANUARY, 1))
+            .withVisitEndDate(LocalDate.of(2045, Month.MARCH, 10))
+            .build());
+
+    return visaApplications;
+  }
 
   public static List<GroupVisaApplication> getGroupVisaApplications() {
     List<GroupVisaApplication> GroupVisaApplications = new ArrayList<>();

@@ -1,27 +1,34 @@
-package io.github.aasaru.drools.intermediate.section06;
+package io.github.aasaru.drools.intermediate.domain.cep;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
+// TODO builder
 public class Call {
+
+    int customerValue;
 
     String callerPhoneNumber;
 
-    // start time
     LocalDateTime callStart;
-    LocalDateTime agentConnected;
 
-    // customer selected
-    String language; // en, ru, et
+    String language;
 
     // if agent==null => is in waiting line
     Agent agent;
 
     String dropReason;
 
-    public Call(String callerPhoneNumber, String lang) {
+    public Call(String callerPhoneNumber, String language) {
         this.callerPhoneNumber = callerPhoneNumber;
-        this.language = lang;
+        this.language = language;
+        this.customerValue = 0;
+        this.callStart = LocalDateTime.now();
+    }
+
+    public Call(String callerPhoneNumber, String language, int customerValue) {
+        this.customerValue = customerValue;
+        this.callerPhoneNumber = callerPhoneNumber;
+        this.language = language;
         this.callStart = LocalDateTime.now();
     }
 
@@ -31,10 +38,6 @@ public class Call {
 
     public LocalDateTime getCallStart() {
         return callStart;
-    }
-
-    public Long getDurationInNanoSeconds() {
-        return ChronoUnit.NANOS.between(callStart, LocalDateTime.now());
     }
 
     public void setAgent(Agent agent) {
@@ -49,11 +52,16 @@ public class Call {
         return callerPhoneNumber;
     }
 
+    public int getCustomerValue() {
+        return customerValue;
+    }
+
     @Override
     public String toString() {
         return "Call{" +
              "callerPhoneNumber='" + callerPhoneNumber + '\'' +
              ",language='" + language + '\'' +
+             (customerValue == 0 ?"" :",customerValue="+customerValue) +
              '}';
     }
 }

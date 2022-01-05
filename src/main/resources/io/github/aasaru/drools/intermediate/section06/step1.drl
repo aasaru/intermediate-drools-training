@@ -1,8 +1,8 @@
 package io.github.aasaru.drools.intermediate.section06.step1
 
-import io.github.aasaru.drools.intermediate.section06.Agent;
-import io.github.aasaru.drools.intermediate.section06.Call;
-import io.github.aasaru.drools.intermediate.section06.CallService;
+import io.github.aasaru.drools.intermediate.domain.cep.Agent;
+import io.github.aasaru.drools.intermediate.domain.cep.Call;
+import io.github.aasaru.drools.intermediate.service.CallService;
 
 global CallService callService;
 

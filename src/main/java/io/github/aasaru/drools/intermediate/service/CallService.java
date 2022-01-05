@@ -1,7 +1,9 @@
-package io.github.aasaru.drools.intermediate.section06;
+package io.github.aasaru.drools.intermediate.service;
+
+import io.github.aasaru.drools.intermediate.domain.cep.Agent;
+import io.github.aasaru.drools.intermediate.domain.cep.Call;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class CallService {
