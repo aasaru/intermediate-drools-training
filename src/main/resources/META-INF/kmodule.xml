@@ -14,40 +14,40 @@
 
 
 
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step1">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step1">
     <ksession name="VisaFeeCalculationStep1"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step2">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step2">
     <ksession name="VisaFeeCalculationStep2"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step3">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step3">
     <ksession name="VisaFeeCalculationStep3"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step4">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step4">
     <ksession name="VisaFeeCalculationStep4"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step5">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step5">
     <ksession name="VisaFeeCalculationStep5"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step6">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step6">
     <ksession name="VisaFeeCalculationStep6"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step7">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step7">
     <ksession name="VisaFeeCalculationStep7"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step8">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step8">
     <ksession name="VisaFeeCalculationStep8"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step9">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step9">
     <ksession name="VisaFeeCalculationStep9"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step10">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step10">
     <ksession name="VisaFeeCalculationStep10"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step11">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step11">
     <ksession name="VisaFeeCalculationStep11"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section04.step12">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step12">
     <ksession name="VisaFeeCalculationStep12"/>
   </kbase>
 

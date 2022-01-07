@@ -25,7 +25,12 @@ public class Common {
     while (true) {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
       try {
-        if (args != null && args.length > 0) {
+        if (args != null && args.length > 0 && args[0].equals("RULES")) {
+
+          System.out.printf("Section %02d. Convert *.xsl to *.drl. Enter step (%d...%d): ", section, minStep, maxStep);
+          stepStr = br.readLine();
+        }
+        else if (args != null && args.length > 0) {
           stepStr = args[0];
 
           return Integer.parseInt(stepStr);
@@ -35,10 +40,6 @@ public class Common {
           stepStr = br.readLine();
         }
 
-        if (stepStr.toUpperCase().startsWith("RULES")) {
-          stepStr = stepStr.substring("RULES".length()).trim();
-          isRulesAsked = true;
-        }
 
         int step = Integer.parseInt(stepStr);
 
@@ -46,7 +47,7 @@ public class Common {
           System.out.println("Step number out of range. Insert a number between " + minStep + " and " + maxStep);
         }
         else {
-          return isRulesAsked ?(-step) :step;
+          return step;
         }
       }
       catch (NumberFormatException e) {

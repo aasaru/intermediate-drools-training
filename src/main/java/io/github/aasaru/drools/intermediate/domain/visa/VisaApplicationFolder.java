@@ -1,4 +1,4 @@
-package io.github.aasaru.drools.intermediate.domain;
+package io.github.aasaru.drools.intermediate.domain.visa;
 
 public class VisaApplicationFolder {
 

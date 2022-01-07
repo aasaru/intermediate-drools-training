@@ -10,7 +10,10 @@
 
 package io.github.aasaru.drools.intermediate.repository;
 
-import io.github.aasaru.drools.intermediate.domain.*;
+import io.github.aasaru.drools.intermediate.domain.visa.FamilyVisaApplication;
+import io.github.aasaru.drools.intermediate.domain.visa.Passport;
+import io.github.aasaru.drools.intermediate.domain.visa.VisaApplication;
+import io.github.aasaru.drools.intermediate.domain.visa.VisaApplicationFolder;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -58,31 +61,19 @@ public class ApplicationRepository {
   public static final VisaApplication SARAH_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(1)
        .withPassportNumber(SARAH_PASSPORT_NUMBER)
-       .withVisitStartDate(LocalDate.of(2039, Month.DECEMBER, 27))
-       .withVisitEndDate(LocalDate.of(2040, Month.JANUARY, 4))
-       .withVisaType(VisaType.TOURIST)
        .withIsUrgent(true)
        .build();
   public static final VisaApplication SIMON_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(2)
        .withPassportNumber(SIMON_PASSPORT_NUMBER)
-       .withVisitStartDate(LocalDate.of(2039, Month.DECEMBER, 27))
-       .withVisitEndDate(LocalDate.of(2039, Month.JANUARY, 4))
-       .withVisaType(VisaType.TOURIST)
        .build();
   public static final VisaApplication EMILY_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(3)
        .withPassportNumber(EMILY_PASSPORT_NUMBER)
-       .withVisitStartDate(LocalDate.of(2044, Month.JANUARY, 1))
-       .withVisitEndDate(LocalDate.of(2044, Month.MARCH, 31))
-       .withVisaType(VisaType.WORK)
        .build();
   public static final VisaApplication JAMES_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(4)
        .withPassportNumber(JAMES_PASSPORT_NUMBER)
-       .withVisitStartDate(LocalDate.of(2045, Month.JANUARY, 1))
-       .withVisitEndDate(LocalDate.of(2045, Month.MARCH, 10))
-       .withVisaType(VisaType.STUDENT)
        .withIsUrgent(true)
        .build();
 
@@ -96,55 +87,41 @@ public class ApplicationRepository {
     visaApplications.add(VisaApplication.newBuilder()
             .withApplicationId(1)
             .withPassportNumber(SARAH_PASSPORT_NUMBER)
-            .withVisitStartDate(LocalDate.of(2039, Month.DECEMBER, 27))
-            .withVisitEndDate(LocalDate.of(2040, Month.JANUARY, 4))
             .build());
 
     visaApplications.add(VisaApplication.newBuilder()
             .withApplicationId(2)
             .withPassportNumber(SIMON_PASSPORT_NUMBER)
-            .withVisitStartDate(LocalDate.of(2039, Month.DECEMBER, 27))
-            .withVisitEndDate(LocalDate.of(2039, Month.JANUARY, 4))
             .build());
 
     visaApplications.add(VisaApplication.newBuilder()
             .withApplicationId(3)
             .withPassportNumber(EMILY_PASSPORT_NUMBER)
-            .withVisitStartDate(LocalDate.of(2044, Month.JANUARY, 1))
-            .withVisitEndDate(LocalDate.of(2044, Month.MARCH, 31))
             .build());
 
     visaApplications.add(VisaApplication.newBuilder()
             .withApplicationId(4)
             .withPassportNumber(JAMES_PASSPORT_NUMBER)
-            .withVisitStartDate(LocalDate.of(2045, Month.JANUARY, 1))
-            .withVisitEndDate(LocalDate.of(2045, Month.MARCH, 10))
             .build());
 
     return visaApplications;
   }
 
-  public static List<GroupVisaApplication> getGroupVisaApplications() {
-    List<GroupVisaApplication> GroupVisaApplications = new ArrayList<>();
+  public static List<FamilyVisaApplication> getGroupVisaApplications() {
+    List<FamilyVisaApplication> familyVisaApplications = new ArrayList<>();
 
-    GroupVisaApplications.add(GroupVisaApplication.newBuilder()
+    familyVisaApplications.add(FamilyVisaApplication.newBuilder()
       .withApplicationId(20)
       .withPassportNumbers(asList(SARAH_PASSPORT_NUMBER, SIMON_PASSPORT_NUMBER))
-      .withVisitStartDate(LocalDate.of(2039, Month.DECEMBER, 27))
-      .withVisitEndDate(LocalDate.of(2040, Month.JANUARY, 4))
-      .withEntryType(VisaType.WORK)
       .withIsUrgent(true)
       .build());
 
-    GroupVisaApplications.add(GroupVisaApplication.newBuilder()
+    familyVisaApplications.add(FamilyVisaApplication.newBuilder()
         .withApplicationId(21)
       .withPassportNumbers(asList(EMILY_PASSPORT_NUMBER, JAMES_PASSPORT_NUMBER))
-      .withVisitStartDate(LocalDate.of(2044, Month.JANUARY, 1))
-      .withVisitEndDate(LocalDate.of(2044, Month.MAY, 31))
-      .withEntryType(VisaType.TOURIST)
       .build());
 
-    return GroupVisaApplications;
+    return familyVisaApplications;
   }
 
   public static List<VisaApplicationFolder> getVisaApplicationFolders() {

@@ -8,7 +8,7 @@
  *  work. If not, see <http://creativecommons.org/licenses/by-nc-nd/4.0/>.
  */
 
-package io.github.aasaru.drools.intermediate.domain;
+package io.github.aasaru.drools.intermediate.domain.visa;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,27 +16,11 @@ import java.util.Objects;
 public class Passport {
   private String passportNumber;
   private String name;
-  private LocalDate expiresOn;
-  private int unusedVisaPages;
   private int age;
-
-  private Validation validation = Validation.UNKNOWN;
 
   private String cause = "";
 
   private Passport() {
-  }
-
-  public LocalDate getExpiresOn() {
-    return expiresOn;
-  }
-
-  public void setExpiresOn(LocalDate expiresOn) {
-    this.expiresOn = expiresOn;
-  }
-
-  public boolean isExpired() {
-    return expiresOn.isBefore(LocalDate.now());
   }
 
   public String getPassportNumber() {
@@ -45,18 +29,6 @@ public class Passport {
 
   public String getName() {
     return name;
-  }
-
-  public int getUnusedVisaPages() {
-    return unusedVisaPages;
-  }
-
-  public Validation getValidation() {
-    return validation;
-  }
-
-  public void setValidation(Validation validation) {
-    this.validation = validation;
   }
 
   public int getAge() {
@@ -127,8 +99,6 @@ public class Passport {
       Passport passport = new Passport();
       passport.passportNumber = passportNumber;
       passport.name = name;
-      passport.expiresOn = expiresOn;
-      passport.unusedVisaPages = unusedVisaPages;
       passport.age = age;
       return passport;
     }
@@ -139,18 +109,15 @@ public class Passport {
     if (this == o) return true;
     if (!(o instanceof Passport)) return false;
     Passport passport = (Passport) o;
-    return unusedVisaPages == passport.unusedVisaPages &&
-        age == passport.age &&
+    return age == passport.age &&
         Objects.equals(passportNumber, passport.passportNumber) &&
         Objects.equals(name, passport.name) &&
-        Objects.equals(expiresOn, passport.expiresOn) &&
-        validation == passport.validation &&
         Objects.equals(cause, passport.cause);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(passportNumber, name, expiresOn, unusedVisaPages, age, validation, cause);
+    return Objects.hash(passportNumber, name, age, cause);
   }
 
 }

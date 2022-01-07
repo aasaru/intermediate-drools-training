@@ -1,8 +1,8 @@
-package io.github.aasaru.drools.intermediate.section04;
+package io.github.aasaru.drools.intermediate.section03;
 
 import io.github.aasaru.drools.intermediate.Common;
 import io.github.aasaru.drools.intermediate.TestUtil;
-import io.github.aasaru.drools.intermediate.domain.VisaFee;
+import io.github.aasaru.drools.intermediate.domain.visa.VisaFee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kie.api.runtime.KieSession;
@@ -128,10 +128,7 @@ class VisaFeeCalculationTest {
         TestUtil.addObjectsOfType(ksession, visaFees, VisaFee.class);
 
         assertThat(visaFees, containsInAnyOrder(
-                new VisaFee(20, 300),
-                new VisaFee(21, 100),
-
-                new VisaFee(1, 106),
+                new VisaFee(1, 70),
                 new VisaFee(2, 64),
                 new VisaFee(3, 64),
                 new VisaFee(4, 105)
@@ -154,10 +151,7 @@ class VisaFeeCalculationTest {
         TestUtil.addObjectsOfType(ksession, visaFees, VisaFee.class);
 
         assertThat(visaFees, containsInAnyOrder(
-                new VisaFee(20, 300),
-                new VisaFee(21, 100),
-
-                new VisaFee(1, 106),
+                new VisaFee(1, 70),
                 new VisaFee(2, 64),
                 new VisaFee(3, 64), // TODO TWICE!!!
                 new VisaFee(3, 32),
@@ -181,15 +175,14 @@ class VisaFeeCalculationTest {
         TestUtil.addObjectsOfType(ksession, visaFees, VisaFee.class);
 
         assertThat(visaFees, containsInAnyOrder(
-                new VisaFee(20, 300),
-                new VisaFee(21, 100),
-
-                new VisaFee(1, 106),
+                new VisaFee(1, 70),
                 new VisaFee(2, 64),
-                new VisaFee(3, 32), // TODO TWICE!!!
+                new VisaFee(3, 32),
                 new VisaFee(4, 105)
         ));
     }
+
+    // TODO step9 brings nothing new
 
     @Test
     void testStep9() {
@@ -200,15 +193,13 @@ class VisaFeeCalculationTest {
 
         Collection<VisaFee> visaFees = VisaFeeCalculation.execute(step);
 
+        // TODO sama mis 7
         assertThat(visaFees, containsInAnyOrder(
-                new VisaFee(20, 300),
-                new VisaFee(21, 100),
-
-                new VisaFee(1, 200), // TODO was 106
+                new VisaFee(1, 70),
                 new VisaFee(2, 64),
                 new VisaFee(3, 32),
                 new VisaFee(3, 64), // note that we want to demonstrate duplicate
-                new VisaFee(4, 200) // TODO was 105
+                new VisaFee(4, 105)
         ));
     }
 
@@ -222,10 +213,7 @@ class VisaFeeCalculationTest {
         Collection<VisaFee> visaFees = VisaFeeCalculation.execute(step);
 
         assertThat(visaFees, containsInAnyOrder(
-                new VisaFee(20, 300),
-                new VisaFee(21, 100),
-
-                new VisaFee(1, 200), // TODO was 106
+                new VisaFee(1, 200), // TODO was 70
                 new VisaFee(2, 64),
                 new VisaFee(3, 32),
                 new VisaFee(4, 200) // TODO was 105
@@ -242,10 +230,7 @@ class VisaFeeCalculationTest {
         Collection<VisaFee> visaFees = VisaFeeCalculation.execute(step);
 
         assertThat(visaFees, containsInAnyOrder(
-               // new VisaFee(20, 300), TODO where did they go?
-               // new VisaFee(21, 100),
-
-                new VisaFee(1, 106),
+                new VisaFee(1, 70),
                 new VisaFee(1, 50), // TODO duplicate!
                 new VisaFee(2, 64),
                 new VisaFee(3, 32),
@@ -268,7 +253,7 @@ class VisaFeeCalculationTest {
                // new VisaFee(20, 300),
                // new VisaFee(21, 100),
 
-                new VisaFee(1, 106),
+                new VisaFee(1, 70),
                 new VisaFee(1, 50), // TODO duplicate!
                 new VisaFee(2, 64),
                 new VisaFee(3, 32),

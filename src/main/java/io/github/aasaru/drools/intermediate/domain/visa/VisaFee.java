@@ -1,4 +1,4 @@
-package io.github.aasaru.drools.intermediate.domain;
+package io.github.aasaru.drools.intermediate.domain.visa;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
