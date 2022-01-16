@@ -5,32 +5,27 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class VisaFee {
 
-    private int applicationId;
-    private Double feeAmount;
+    private Integer applicationId;
+    private Integer feeAmount;
 
-    public VisaFee(int applicationId, Integer feeAmount) {
-        this.applicationId = applicationId;
-        this.feeAmount = feeAmount.doubleValue();
-    }
-
-    public VisaFee(int applicationId, Double feeAmount) {
+    public VisaFee(Integer applicationId, Integer feeAmount) {
         this.applicationId = applicationId;
         this.feeAmount = feeAmount;
     }
 
-    public int getApplicationId() {
+    public Integer getApplicationId() {
         return applicationId;
     }
 
-    public void setApplicationId(int applicationId) {
+    public void setApplicationId(Integer applicationId) {
         this.applicationId = applicationId;
     }
 
-    public Double getFeeAmount() {
+    public Integer getFeeAmount() {
         return feeAmount;
     }
 
-    public void setFeeAmount(Double feeAmount) {
+    public void setFeeAmount(Integer feeAmount) {
         this.feeAmount = feeAmount;
     }
 

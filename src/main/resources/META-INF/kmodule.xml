@@ -35,7 +35,7 @@
   <kbase packages="io.github.aasaru.drools.intermediate.section03.step7">
     <ksession name="VisaFeeCalculationStep7"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section03.step8">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step8" name="section03step8">
     <ksession name="VisaFeeCalculationStep8"/>
   </kbase>
   <kbase packages="io.github.aasaru.drools.intermediate.section03.step9">
@@ -44,13 +44,15 @@
   <kbase packages="io.github.aasaru.drools.intermediate.section03.step10">
     <ksession name="VisaFeeCalculationStep10"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section03.step11">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step11" name="section03step11">
     <ksession name="VisaFeeCalculationStep11"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section03.step12">
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step12" name="section03step12" sequential="true">
     <ksession name="VisaFeeCalculationStep12"/>
   </kbase>
-
+  <kbase packages="io.github.aasaru.drools.intermediate.section03.step13" name="section03step13" sequential="true">
+    <ksession name="VisaFeeCalculationStep13"/>
+  </kbase>
   <kbase packages="io.github.aasaru.drools.intermediate.section06.step1">
     <ksession name="ComplexEventProcessingStep1"/>
   </kbase>

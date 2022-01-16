@@ -10,7 +10,8 @@
 
 package io.github.aasaru.drools.intermediate.domain.visa;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class VisaApplication {
   private int applicationId;
@@ -71,17 +72,13 @@ public class VisaApplication {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof VisaApplication)) return false;
-    VisaApplication that = (VisaApplication) o;
-    return applicationId == that.applicationId &&
-        Objects.equals(passportNumber, that.passportNumber);
+  public boolean equals(Object obj) {
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(applicationId, passportNumber);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
 

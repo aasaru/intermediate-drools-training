@@ -1,13 +1,19 @@
 package io.github.aasaru.drools.intermediate.section03;
 
 import io.github.aasaru.drools.intermediate.Common;
+import io.github.aasaru.drools.intermediate.domain.visa.VisaApplication;
+import io.github.aasaru.drools.intermediate.domain.visa.VisaApplicationFolder;
 import io.github.aasaru.drools.intermediate.domain.visa.VisaFee;
 import io.github.aasaru.drools.intermediate.repository.ApplicationRepository;
 import org.drools.compiler.compiler.DecisionTableFactory;
 import org.drools.core.builder.conf.impl.DecisionTableConfigurationImpl;
 import org.drools.core.io.impl.FileSystemResource;
+import org.kie.api.KieBase;
+import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
+import org.kie.api.conf.SequentialOption;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.builder.DecisionTableConfiguration;
 
 import java.util.ArrayList;
@@ -20,9 +26,8 @@ public class VisaFeeCalculation {
 
     public static void main(final String[] args) {
 
-        int step = Common.promptForStep(3, args, 1, 12);
+        int step = Common.promptForStep(3, args, 1, 13);
 
-        // TODO 9 = 7 (except running mode)
 
         if (true) {
 
@@ -40,42 +45,105 @@ public class VisaFeeCalculation {
 
         }
 
-        execute(step);
+        boolean singleDroolsSession = true;
+        if (step == 11) {
+
+            if (Common.promptForYesNoQuestion("Do you want run a separate Drools session for each visa application ?")) {
+                singleDroolsSession = false;
+            }
+
+        }
+        else if (step >= 12) {
+            executeAsStatelessSessionInDroolsSequentialMode(step);
+            return;
+        }
+
+
+        execute(step, singleDroolsSession);
 
 
     }
 
-    static Collection<VisaFee> execute(int step) {
+    static Collection<VisaFee> execute(int step, boolean singleDroolsSession) {
         System.out.println("Running step " + step);
 
 
         List<Object> factsToInsert = new ArrayList<>();
 
-        factsToInsert.addAll(ApplicationRepository.getGroupVisaApplications());
-        factsToInsert.addAll(ApplicationRepository.getVisaApplications());
-        factsToInsert.addAll(ApplicationRepository.getPassports());
+        if (step <= 5) {
+            factsToInsert.addAll(ApplicationRepository.getFamilyVisaApplications());
+        }
 
+        if (step >= 5) {
+            factsToInsert.addAll(ApplicationRepository.getPassports());
+        }
 
-        return executeInSingleSession(step, factsToInsert);
+        Collection<VisaFee> visaFees = new ArrayList<>();
 
+        if (singleDroolsSession) {
+
+            if (step >= 6) {
+                factsToInsert.addAll(ApplicationRepository.getVisaApplications());
+            }
+
+            visaFees.addAll( executeDroolsSession(step, factsToInsert, 1) );
+        }
+        else {
+            int sessionNo = 1;
+            for (VisaApplication visaApplication : ApplicationRepository.getVisaApplications()) {
+
+                List<Object> factsList = new ArrayList<>(factsToInsert);
+                factsList.add(visaApplication);
+
+                visaFees.addAll( executeDroolsSession(step, factsList, sessionNo++) );
+            }
+        }
+
+        return visaFees;
     }
 
-    static Collection<VisaFee> executeInSingleSession(int step, Collection<Object> factsToInsert) {
+    static List<VisaApplicationFolder> executeAsStatelessSessionInDroolsSequentialMode(int step) {
+        List<VisaApplicationFolder> visaApplicationFolders = ApplicationRepository.getVisaApplicationFolders();
 
+        KieServices ks = KieServices.Factory.get();
+        KieBaseConfiguration kieBaseConf = ks.newKieBaseConfiguration();
+        kieBaseConf.setOption(SequentialOption.YES);
+        KieBase kieBase = ks.getKieClasspathContainer().getKieBase("section03step" + step);
+
+        StatelessKieSession ksession = kieBase.newStatelessKieSession();
+
+
+        System.out.println("==== EXECUTING FOLLOWING FACTS AS DROOLS STATELESS SESSION ==== ");
+
+        visaApplicationFolders.forEach(System.out::println);
+
+        System.out.println("==== DROOLS STATELESS SESSION START ==== ");
+        ksession.execute(visaApplicationFolders);
+        System.out.println("==== DROOLS STATELESS SESSION END ==== ");
+
+        visaApplicationFolders.forEach(System.out::println);
+
+        return visaApplicationFolders;
+    }
+
+
+    static Collection<VisaFee> executeDroolsSession(int step, Collection<Object> factsToInsert, int sessionNo) {
         KieSession ksession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("VisaFeeCalculationStep" + step);
 
-        factsToInsert.forEach(ksession::insert);
+        System.out.println("==== ADDING TO DROOLS SESSION #"+sessionNo+" ==== ");
+        factsToInsert.forEach(ksession::insert); // TODO execute
         factsToInsert.forEach(System.out::println);
 
-        System.out.println("==== DROOLS SESSION START ==== ");
+        System.out.println("==== DROOLS SESSION #"+sessionNo+" START ==== ");
         ksession.fireAllRules();
 
-        System.out.println("==== DROOLS SESSION END ==== ");
+        System.out.println("==== DROOLS SESSION #"+sessionNo+" END ==== ");
 
         Collection<VisaFee> fees = getVisaFeesFromKieSession(ksession);
 
-        System.out.println("== Fees from session == ");
+        System.out.println("==== FEES FROM SESSION #"+sessionNo+" END ==== ");
         fees.forEach(System.out::println);
+        System.out.println();
 
         if (Common.disposeSession) {
             ksession.dispose();
@@ -91,5 +159,7 @@ public class VisaFeeCalculation {
              .collect(Collectors.toList());
         return fees;
     }
+
+
 
 }

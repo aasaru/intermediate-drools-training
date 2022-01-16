@@ -64,22 +64,29 @@ public class FormatMasterWorkbook {
                 currentSheet.setColumnWidth(6, 20*256);
                 currentSheet.setColumnWidth(7, 20*256);
             }
-            else if (sheetIndex < 10) {
-                currentSheet.setColumnWidth(1, 18*256);
+            else if (sheetIndex < 11) {
 
-                currentSheet.setColumnWidth(2, 20*256);
-                currentSheet.setColumnWidth(3, 12*256);
-                currentSheet.setColumnWidth(4, 16*256);
-                currentSheet.setColumnWidth(5, 22*256);
-                currentSheet.setColumnWidth(6, 20*256);
-                currentSheet.setColumnWidth(7, 20*256);
+                int idx = 1; // B column
+
+                if (sheetIndex == 8) { // step9 priority col
+                    currentSheet.setColumnWidth(idx++, 10*256);
+                }
+
+                currentSheet.setColumnWidth(idx++, 18*256);
+
+                currentSheet.setColumnWidth(idx++, 20*256);
+                currentSheet.setColumnWidth(idx++, 13*256);
+                currentSheet.setColumnWidth(idx++, 16*256);
+                currentSheet.setColumnWidth(idx++, 22*256);
+                currentSheet.setColumnWidth(idx++, 20*256);
+                currentSheet.setColumnWidth(idx++, 20*256);
             }
-            else {
+            else { // starting 12
                 currentSheet.setColumnWidth(1, 20*256);
 
                 currentSheet.setColumnWidth(2, 20*256);
                 currentSheet.setColumnWidth(3, 20*256);
-                currentSheet.setColumnWidth(4, 23*256);
+                currentSheet.setColumnWidth(4, 24*256);
                 currentSheet.setColumnWidth(5, 15*256);
                 currentSheet.setColumnWidth(6, 12*256);
                 //workBook.getSheetAt(sheetIndex).setColumnWidth(7, 20*256);
@@ -90,21 +97,27 @@ public class FormatMasterWorkbook {
 
         }
 
-        // commens on step4 and step5
+        // comments on step4 and step5
         workBook.getSheetAt(3).getRow(10).setHeightInPoints(23);
         workBook.getSheetAt(3).getRow(13).setHeightInPoints(23);
-
-        // comments on step5
         workBook.getSheetAt(4).getRow(10).setHeightInPoints(23);
         workBook.getSheetAt(4).getRow(13).setHeightInPoints(23);
 
+        // step5 width of C and D
+        workBook.getSheetAt(4).setColumnWidth(2, 31*256);
+        workBook.getSheetAt(4).setColumnWidth(3, 15*256);
 
         workBook.getSheetAt(7).setColumnWidth(5, 26*256); // step 8 not clause
         workBook.getSheetAt(7).setColumnWidth(5, 26*256); // step 8 not clause
 
+        workBook.getSheetAt(5).setColumnWidth(2, 13*256); // step 6 "Urgent"
+        workBook.getSheetAt(5).setColumnWidth(3, 23*256); // step 6 "Link exists"
 
-        workBook.getSheetAt(5).setColumnWidth(3, 25*256); // step 6 "Link exists"
-        workBook.getSheetAt(11).setColumnWidth(5, 20*256); // activation-group on step 12
+        workBook.getSheetAt(10).setColumnWidth(4, 23*256); // JOIN on step 11
+        workBook.getSheetAt(10).setColumnWidth(5, 22*256); // ACTION on step 11
+        workBook.getSheetAt(10).setColumnWidth(6, 19*256); // activation-group on step 11
+
+        workBook.getSheetAt(12).setColumnWidth(5, 25*256); // Notes on step 13
 
     }
 

@@ -15,8 +15,6 @@ import io.github.aasaru.drools.intermediate.domain.visa.Passport;
 import io.github.aasaru.drools.intermediate.domain.visa.VisaApplication;
 import io.github.aasaru.drools.intermediate.domain.visa.VisaApplicationFolder;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,45 +29,43 @@ public class ApplicationRepository {
 
   public static final Passport SARAH_PASSPORT = Passport.newBuilder()
        .withPassportNumber(SARAH_PASSPORT_NUMBER)
+       .withCountry("CA")
        .withName("Sarah Murphy")
-       .withUnusedVisaPages(1)
-       .withExpiresOn(LocalDate.of(2017, Month.DECEMBER, 17))
        .withAge(50)
        .build();
   public static final Passport SIMON_PASSPORT = Passport.newBuilder()
        .withPassportNumber(SIMON_PASSPORT_NUMBER)
+       .withCountry("CA")
        .withName("Simon Murphy")
-       .withUnusedVisaPages(0)
-       .withExpiresOn(LocalDate.of(2045, Month.MAY, 11))
        .withAge(12)
        .build();
   public static final Passport EMILY_PASSPORT = Passport.newBuilder()
        .withPassportNumber(EMILY_PASSPORT_NUMBER)
+       .withCountry("AU")
        .withName("Emily Brown")
-       .withUnusedVisaPages(20)
-       .withExpiresOn(LocalDate.of(2047, Month.NOVEMBER, 25))
        .withAge(16)
        .build();
   public static final Passport JAMES_PASSPORT = Passport.newBuilder()
        .withPassportNumber(JAMES_PASSPORT_NUMBER)
+       .withCountry("CA")
        .withName("James Brown")
-       .withUnusedVisaPages(10)
-       .withExpiresOn(LocalDate.of(2045, Month.APRIL, 10))
        .withAge(17)
        .build();
 
   public static final VisaApplication SARAH_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(1)
        .withPassportNumber(SARAH_PASSPORT_NUMBER)
-       .withIsUrgent(true)
+       .withIsUrgent(false)
        .build();
   public static final VisaApplication SIMON_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(2)
        .withPassportNumber(SIMON_PASSPORT_NUMBER)
+       .withIsUrgent(false)
        .build();
   public static final VisaApplication EMILY_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(3)
        .withPassportNumber(EMILY_PASSPORT_NUMBER)
+       .withIsUrgent(false)
        .build();
   public static final VisaApplication JAMES_VISA_APPLICATION = VisaApplication.newBuilder()
        .withApplicationId(4)
@@ -82,44 +78,29 @@ public class ApplicationRepository {
   }
 
   public static List<VisaApplication> getVisaApplications() {
-    List<VisaApplication> visaApplications = new ArrayList<>();
-
-    visaApplications.add(VisaApplication.newBuilder()
-            .withApplicationId(1)
-            .withPassportNumber(SARAH_PASSPORT_NUMBER)
-            .build());
-
-    visaApplications.add(VisaApplication.newBuilder()
-            .withApplicationId(2)
-            .withPassportNumber(SIMON_PASSPORT_NUMBER)
-            .build());
-
-    visaApplications.add(VisaApplication.newBuilder()
-            .withApplicationId(3)
-            .withPassportNumber(EMILY_PASSPORT_NUMBER)
-            .build());
-
-    visaApplications.add(VisaApplication.newBuilder()
-            .withApplicationId(4)
-            .withPassportNumber(JAMES_PASSPORT_NUMBER)
-            .build());
-
-    return visaApplications;
+    return asList(SARAH_VISA_APPLICATION, SIMON_VISA_APPLICATION, EMILY_VISA_APPLICATION, JAMES_VISA_APPLICATION);
   }
 
-  public static List<FamilyVisaApplication> getGroupVisaApplications() {
+  public static List<FamilyVisaApplication> getFamilyVisaApplications() {
     List<FamilyVisaApplication> familyVisaApplications = new ArrayList<>();
 
     familyVisaApplications.add(FamilyVisaApplication.newBuilder()
-      .withApplicationId(20)
-      .withPassportNumbers(asList(SARAH_PASSPORT_NUMBER, SIMON_PASSPORT_NUMBER))
-      .withIsUrgent(true)
-      .build());
+            .withApplicationId(20)
+            .withPersonCount(2)
+            .withIsUrgent(true)
+            .build());
 
     familyVisaApplications.add(FamilyVisaApplication.newBuilder()
-        .withApplicationId(21)
-      .withPassportNumbers(asList(EMILY_PASSPORT_NUMBER, JAMES_PASSPORT_NUMBER))
-      .build());
+            .withApplicationId(21)
+            .withPersonCount(2)
+            .withIsUrgent(false)
+            .build());
+
+    familyVisaApplications.add(FamilyVisaApplication.newBuilder()
+            .withApplicationId(22)
+            .withPersonCount(4)
+            .withIsUrgent(false)
+            .build());
 
     return familyVisaApplications;
   }

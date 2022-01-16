@@ -10,14 +10,15 @@
 
 package io.github.aasaru.drools.intermediate.domain.visa;
 
-import java.util.ArrayList;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class FamilyVisaApplication {
   private int applicationId;
-  private List<String> passportNumbers = new ArrayList<>();
+  private int personCount;
   private boolean isUrgent;
 
   public FamilyVisaApplication(int applicationId) {
@@ -28,17 +29,14 @@ public class FamilyVisaApplication {
     return applicationId;
   }
 
-  public List<String> getPassportNumbers() {
-    return passportNumbers;
+  public int getPersonCount() {
+    return personCount;
   }
 
   public boolean isUrgent() {
     return isUrgent;
   }
 
-  public int getPersonCount() {
-    return passportNumbers.size();
-  }
 
   public static String join(Collection<String> collection) {
     return collection.stream()
@@ -48,7 +46,7 @@ public class FamilyVisaApplication {
 
   @Override
   public String toString() {
-    return String.format("FamilyVisaApplication[#%d, %s]", applicationId, join(passportNumbers));
+    return String.format("FamilyVisaApplication[#%d, personCount: %s, urgent: %s]", applicationId, personCount, isUrgent);
   }
 
   public static FamilyVisaApplicationBuilder newBuilder() {
@@ -58,20 +56,14 @@ public class FamilyVisaApplication {
 
   public static final class FamilyVisaApplicationBuilder {
     private int applicationId;
-    private List<String> passportNumbers = new ArrayList<>();
+    private int personCount;
     private boolean isUrgent;
 
     private FamilyVisaApplicationBuilder() {
     }
 
-
     public FamilyVisaApplicationBuilder withApplicationId(int applicationId) {
       this.applicationId = applicationId;
-      return this;
-    }
-
-    public FamilyVisaApplicationBuilder withPassportNumbers(List<String> passportNumbers) {
-      this.passportNumbers = passportNumbers;
       return this;
     }
 
@@ -80,23 +72,27 @@ public class FamilyVisaApplication {
       return this;
     }
 
+    public FamilyVisaApplicationBuilder withPersonCount(int personCount) {
+      this.personCount = personCount;
+      return this;
+    }
+
     public FamilyVisaApplication build() {
-      FamilyVisaApplication FamilyVisaApplication = new FamilyVisaApplication(applicationId);
-      FamilyVisaApplication.passportNumbers = this.passportNumbers;
-      FamilyVisaApplication.isUrgent = this.isUrgent;
-      return FamilyVisaApplication;
+      FamilyVisaApplication familyVisaApplication = new FamilyVisaApplication(applicationId);
+      familyVisaApplication.isUrgent = this.isUrgent;
+      familyVisaApplication.personCount = this.personCount;
+      return familyVisaApplication;
     }
   }
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof FamilyVisaApplication
-        && ((FamilyVisaApplication) obj).getApplicationId() == applicationId;
+    return EqualsBuilder.reflectionEquals(this, obj);
   }
 
   @Override
   public int hashCode() {
-    return Long.valueOf(applicationId).hashCode();
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
 }

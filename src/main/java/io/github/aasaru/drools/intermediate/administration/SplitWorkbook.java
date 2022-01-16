@@ -11,7 +11,7 @@ public class SplitWorkbook {
 
     public static void main(String[] args) throws IOException {
 
-        for(int stepNo=1; stepNo <= 12; stepNo++) {
+        for(int stepNo=1; stepNo <= 13; stepNo++) {
             copyToSeparateFile(stepNo);
         }
 

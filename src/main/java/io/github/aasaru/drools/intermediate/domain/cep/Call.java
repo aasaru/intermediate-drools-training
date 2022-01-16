@@ -1,5 +1,8 @@
 package io.github.aasaru.drools.intermediate.domain.cep;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.time.LocalDateTime;
 
 // TODO builder
@@ -63,5 +66,15 @@ public class Call {
              ",language='" + language + '\'' +
              (customerValue == 0 ?"" :",customerValue="+customerValue) +
              '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 }
