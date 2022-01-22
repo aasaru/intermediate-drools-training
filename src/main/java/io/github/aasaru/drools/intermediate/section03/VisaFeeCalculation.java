@@ -5,16 +5,12 @@ import io.github.aasaru.drools.intermediate.domain.visa.VisaApplication;
 import io.github.aasaru.drools.intermediate.domain.visa.VisaApplicationFolder;
 import io.github.aasaru.drools.intermediate.domain.visa.VisaFee;
 import io.github.aasaru.drools.intermediate.repository.ApplicationRepository;
-import org.drools.compiler.compiler.DecisionTableFactory;
-import org.drools.core.builder.conf.impl.DecisionTableConfigurationImpl;
-import org.drools.core.io.impl.FileSystemResource;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
 import org.kie.api.conf.SequentialOption;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
-import org.kie.internal.builder.DecisionTableConfiguration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,25 +21,8 @@ import java.util.stream.Collectors;
 public class VisaFeeCalculation {
 
     public static void main(final String[] args) {
-
         int step = Common.promptForStep(3, args, 1, 13);
 
-
-        if (true) {
-
-
-            // TODO - remove absolute path and make work when running from JAR
-
-            DecisionTableConfiguration decisionTableConfiguration = new DecisionTableConfigurationImpl();
-
-            FileSystemResource
-                 spreadsheetFile =
-                 new FileSystemResource("/Users/juhan/spaces/github/intermediate-drools-training/src/main/resources/io/github/aasaru/drools/intermediate/section03/step"+step+"/step"+step+".xls");
-            String generatedDrl = DecisionTableFactory.loadFromResource(spreadsheetFile, decisionTableConfiguration);
-
-            System.out.println(generatedDrl);
-
-        }
 
         boolean singleDroolsSession = true;
         if (step == 11) {
@@ -60,13 +39,10 @@ public class VisaFeeCalculation {
 
 
         execute(step, singleDroolsSession);
-
-
     }
 
     static Collection<VisaFee> execute(int step, boolean singleDroolsSession) {
         System.out.println("Running step " + step);
-
 
         List<Object> factsToInsert = new ArrayList<>();
 
