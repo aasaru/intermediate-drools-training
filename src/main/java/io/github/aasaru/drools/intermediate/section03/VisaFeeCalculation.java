@@ -23,7 +23,6 @@ public class VisaFeeCalculation {
     public static void main(final String[] args) {
         int step = Common.promptForStep(3, args, 1, 13);
 
-
         boolean singleDroolsSession = true;
         if (step == 11) {
 
@@ -36,8 +35,6 @@ public class VisaFeeCalculation {
             executeAsStatelessSessionInDroolsSequentialMode(step);
             return;
         }
-
-
         execute(step, singleDroolsSession);
     }
 
