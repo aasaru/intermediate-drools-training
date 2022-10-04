@@ -14,7 +14,7 @@ public class SpreadsheetToDrl {
 
     public static void main(String[] args) {
 
-        int step = Common.promptForStep(3, new String[]{"RULES"}, 1, 12);
+        int step = Common.promptForStep(3, new String[]{"RULES"}, 1, 13);
 
         DecisionTableConfiguration decisionTableConfiguration = new DecisionTableConfigurationImpl();
 
