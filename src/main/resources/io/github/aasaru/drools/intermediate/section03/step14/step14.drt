@@ -1,26 +1,21 @@
 template header
-age[]
-countryNotIn
-urgentVisa
-fee
+minAge
+maxAge
+urgent
 fee
 
-package io.github.aasaru.drools.intermediate.section04.step13;
+package io.github.aasaru.drools.intermediate.section03.step14;
 
-import io.github.aasaru.drools.domain.*;
+import io.github.aasaru.drools.intermediate.domain.visa.*;
 
 template "Visa fee pricing"
 
-rule "VisaFee_@{row.rowNumber}"
-
-    when
-        Driver(age >= @{age0}, age <= @{age1}
-            , priorClaims == "@{priorClaims}"
-            , locationRiskProfile == "@{profile}"
-        )
-        policy: Policy(type == "@{policyType}")
-    then
-        policy.setBasePrice(@{base});
-        System.out.println("@{reason}");
+rule "older"
+	when
+		$folder: VisaApplicationFolder(passport.age >= @{minAge}, passport.age <= @{maxAge},
+		visaApplication.urgent == @{urgent})
+	then
+		$folder.addVisaFee(@{fee});
+		System.out.println("Applied fee @{fee} to #" + $folder.getVisaApplication().getApplicationId());
 end
 end template
