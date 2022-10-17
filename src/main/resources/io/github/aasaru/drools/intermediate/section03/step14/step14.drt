@@ -5,6 +5,7 @@ countryNotIn
 urgent
 fee
 
+
 package io.github.aasaru.drools.intermediate.section03.step14;
 
 import io.github.aasaru.drools.intermediate.domain.visa.*;
@@ -14,10 +15,11 @@ template "VisaFeePricing"
 
 rule "visa fee #@{row.rowNumber}"
 	when
-		$folder: VisaApplicationFolder(passport.age >= @{minAge},
-		passport.age <= @{maxAge},
-		visaApplication.urgent == "@{urgent}",
-		!asList(@{countryNotIn}).contains(passport.country)
+		$folder: VisaApplicationFolder(
+		  passport.age >= @{minAge},
+		  passport.age <= @{maxAge},
+		  visaApplication.urgent == "@{urgent}",
+		  !asList(@{countryNotIn}).contains(passport.country)
 		)
 	then
 		$folder.addVisaFee(@{fee});
