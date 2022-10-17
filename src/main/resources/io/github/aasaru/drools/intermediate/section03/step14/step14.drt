@@ -1,19 +1,24 @@
 template header
 minAge
 maxAge
+countryNotIn
 urgent
 fee
 
 package io.github.aasaru.drools.intermediate.section03.step14;
 
 import io.github.aasaru.drools.intermediate.domain.visa.*;
+import static java.util.Arrays.asList;
 
-template "Visa fee pricing"
+template "VisaFeePricing"
 
-rule "older"
+rule "visa fee #@{row.rowNumber}"
 	when
-		$folder: VisaApplicationFolder(passport.age >= @{minAge}, passport.age <= @{maxAge},
-		visaApplication.urgent == @{urgent})
+		$folder: VisaApplicationFolder(passport.age >= @{minAge},
+		passport.age <= @{maxAge},
+		visaApplication.urgent == "@{urgent}",
+		!asList(@{countryNotIn}).contains(passport.country)
+		)
 	then
 		$folder.addVisaFee(@{fee});
 		System.out.println("Applied fee @{fee} to #" + $folder.getVisaApplication().getApplicationId());

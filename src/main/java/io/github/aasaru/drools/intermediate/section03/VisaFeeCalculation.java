@@ -9,6 +9,7 @@ import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
 import org.kie.api.conf.SequentialOption;
+import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 
@@ -31,8 +32,12 @@ public class VisaFeeCalculation {
             }
 
         }
-        else if (step >= 12) {
+        else if (step == 12 || step == 13) {
             executeAsStatelessSessionInDroolsSequentialMode(step);
+            return;
+        }
+        else if (step == 14) {
+            executeFromTemplate(step);
             return;
         }
         execute(step, singleDroolsSession);
@@ -75,6 +80,32 @@ public class VisaFeeCalculation {
         return visaFees;
     }
 
+    static List<VisaApplicationFolder> executeFromTemplate(int step) {
+
+
+        List<VisaApplicationFolder> visaApplicationFolders = ApplicationRepository.getVisaApplicationFolders();
+
+        KieContainer kc = KieServices.Factory.get().getKieClasspathContainer();
+        KieSession ksession = kc.newKieSession( "VisaFeeCalculationStep14" );
+
+
+
+        System.out.println("==== EXECUTING FOLLOWING FACTS AS DROOLS STATELESS SESSION ==== ");
+
+        visaApplicationFolders.forEach(ksession::insert);
+        visaApplicationFolders.forEach(System.out::println);
+
+
+
+        System.out.println("==== DROOLS STATELESS SESSION START ==== ");
+        ksession.fireAllRules();
+        System.out.println("==== DROOLS STATELESS SESSION END ==== ");
+
+        visaApplicationFolders.forEach(System.out::println);
+
+        return visaApplicationFolders;
+    }
+
     static List<VisaApplicationFolder> executeAsStatelessSessionInDroolsSequentialMode(int step) {
         List<VisaApplicationFolder> visaApplicationFolders = ApplicationRepository.getVisaApplicationFolders();
 
@@ -95,6 +126,7 @@ public class VisaFeeCalculation {
         System.out.println("==== DROOLS STATELESS SESSION END ==== ");
 
         visaApplicationFolders.forEach(System.out::println);
+
 
         return visaApplicationFolders;
     }
