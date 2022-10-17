@@ -56,7 +56,7 @@
   <kbase packages="io.github.aasaru.drools.intermediate.section03.step14" name="section03step14">
     <ruleTemplate dtable="io/github/aasaru/drools/intermediate/section03/step14/step14.xls"
                   template="io/github/aasaru/drools/intermediate/section03/step14/step14.drt"
-                  row="2" col="1"/>
+                  row="2" col="2"/>
     <ksession name="VisaFeeCalculationStep14"/>
   </kbase>
   <kbase packages="io.github.aasaru.drools.intermediate.section06.step1">

@@ -35,7 +35,7 @@ public class SpreadsheetToDrl {
             FileSystemResource templateFile =
                     new FileSystemResource(getFile("io/github/aasaru/drools/intermediate/section03/step" + step + "/step" + step + ".drt"));
 
-            decisionTableConfiguration.addRuleTemplateConfiguration(templateFile, 2, 1);
+            decisionTableConfiguration.addRuleTemplateConfiguration(templateFile, 2, 2);
 
             FileSystemResource
                     dataFile =
