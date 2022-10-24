@@ -1,0 +1,38 @@
+package io.github.aasaru.drools.intermediate.section04.step1;
+
+import io.github.aasaru.drools.intermediate.domain.visa.*;
+import static java.util.Arrays.asList;
+
+template "VisaFeePricing"
+
+rule "visa fee #@{row.rowNumber}"
+	when
+		$folder: VisaApplicationFolder(
+		  passport.age >= @{minAge},
+		  passport.age <= @{maxAge},
+		  visaApplication.urgent == "@{urgent}",
+		  !asList(@{countryNotIn}).contains(passport.country)
+		)
+	then
+		$folder.addVisaFee(@{fee});
+		System.out.println("Applied fee @{fee} to #" + $folder.getVisaApplication().getApplicationId());
+end
+end template
+
+
+
+
+
+
+template "VerdictForUnemployed"
+LOG_EVENT == true
+rule "Log Event @{row.rowNumber}"
+    when
+        FeeEvent(
+            id == @{FEE_EVENT_ID},
+            $activity: activityType.name
+        )
+    then
+        logger.addLogging($activity);
+end
+end template

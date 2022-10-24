@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class VisaFeeCalculation {
 
     public static void main(final String[] args) {
-        int step = Common.promptForStep(3, args, 1, 14);
+        int step = Common.promptForStep(3, args, 1, 13);
 
         boolean singleDroolsSession = true;
         if (step == 11) {
