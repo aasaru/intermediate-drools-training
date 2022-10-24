@@ -56,10 +56,10 @@
 
 
   <kbase packages="io.github.aasaru.drools.intermediate.section04.step1" name="section04step1">
-    <ruleTemplate dtable="io/github/aasaru/drools/intermediate/section04/step1/step1.xls"
-                  template="io/github/aasaru/drools/intermediate/section04/step1/step1.drt"
+    <ruleTemplate dtable="io/github/aasaru/drools/intermediate/section04/step1/data.xls"
+                  template="io/github/aasaru/drools/intermediate/section04/step1/ruleTemplates.drt"
                   row="2" col="2"/>
-    <ksession name="VisaFeeCalculationSection04Step1"/>
+    <ksession name="VisaVerdictSection04Step1"/>
   </kbase>
   <kbase packages="io.github.aasaru.drools.intermediate.section06.step1">
     <ksession name="ComplexEventProcessingStep1"/>

@@ -11,6 +11,10 @@ public class VisaApplicationFolder {
     private VisaApplication visaApplication;
     private Integer visaFee;
 
+    private Boolean booking;
+
+    private Boolean unemployed;
+
     public VisaApplicationFolder(Passport passport, VisaApplication visaApplication) {
         if (!passport.getPassportNumber().equals(visaApplication.getPassportNumber())) {
             throw new IllegalArgumentException("Passport number doesn't match with passport number in visa application");
@@ -18,6 +22,12 @@ public class VisaApplicationFolder {
 
         this.visaApplication = visaApplication;
         this.passport = passport;
+    }
+
+    public VisaApplicationFolder(Passport passport, VisaApplication visaApplication, Boolean unemployed, Boolean booking) {
+        this(passport, visaApplication);
+        this.unemployed = unemployed;
+        this.booking = booking;
     }
 
     public Passport getPassport() {
@@ -38,6 +48,14 @@ public class VisaApplicationFolder {
 
     public void setVisaApplication(VisaApplication visaApplication) {
         this.visaApplication = visaApplication;
+    }
+
+    public boolean isBooking() {
+        return booking != null && booking;
+    }
+
+    public Boolean getUnemployed() {
+        return unemployed;
     }
 
     public void setVisaFee(Integer visaFee) {
@@ -69,6 +87,7 @@ public class VisaApplicationFolder {
                 + ", age:" + passport.getAge()
                 + ", country:" + passport.getCountry()
                 + ((visaFee == null) ?"" :", visaFee="+visaFee)
+                + ((booking == null) ?"" :", hasBooking="+booking)
                 + ")";
     }
 

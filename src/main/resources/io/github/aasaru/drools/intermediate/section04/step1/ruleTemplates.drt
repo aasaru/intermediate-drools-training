@@ -1,38 +1,53 @@
+template header
+AGE[]
+IS_UNEMPLOYED: Boolean
+BOOKING: Boolean
+PERCENT_TO_INTERVIEW
+
+
 package io.github.aasaru.drools.intermediate.section04.step1;
 
 import io.github.aasaru.drools.intermediate.domain.visa.*;
 import static java.util.Arrays.asList;
 
-template "VisaFeePricing"
-
-rule "visa fee #@{row.rowNumber}"
+template "RegularVerdict"
+rule "Verdict based on row @{row.rowNumber}"
+    salience 0
 	when
 		$folder: VisaApplicationFolder(
-		  passport.age >= @{minAge},
-		  passport.age <= @{maxAge},
-		  visaApplication.urgent == "@{urgent}",
-		  !asList(@{countryNotIn}).contains(passport.country)
+		  passport.age >= @{AGE0},
+		  passport.age <= @{AGE1}
 		)
+		not VisaVerdict(applicationId == $folder.visaApplicationId)
 	then
-		$folder.addVisaFee(@{fee});
-		System.out.println("Applied fee @{fee} to #" + $folder.getVisaApplication().getApplicationId());
+	    System.out.println("Issuing visa for #" + $folder.getVisaApplicationId());
+		insert(VisaVerdict.issueVisa($folder.getVisaApplicationId()));
 end
 end template
 
 
-
-
-
-
-template "VerdictForUnemployed"
-LOG_EVENT == true
-rule "Log Event @{row.rowNumber}"
+template "Verdict for unemployed based on row @{row.rowNumber}"
+IS_UNEMPLOYED == true
+rule "Flip coin @{row.rowNumber}"
+    salience 10
     when
-        FeeEvent(
-            id == @{FEE_EVENT_ID},
-            $activity: activityType.name
-        )
+		$folder: VisaApplicationFolder(
+		  passport.age >= @{AGE0},
+		  passport.age <= @{AGE1},
+		  booking == @{BOOKING}
+		)
+		not VisaVerdict(applicationId == $folder.visaApplicationId)
     then
-        logger.addLogging($activity);
+        java.util.Random random = new java.util.Random();
+		int randomInt = random.ints(0, 100).findFirst().getAsInt();
+		double threshold = @{PERCENT_TO_INTERVIEW}*100;
+		if (randomInt < threshold) {
+			System.out.println("Calling #"+$folder.getVisaApplicationId()+" to interview as random "+randomInt+" fell below threshold "+threshold);
+		    insert(VisaVerdict.callToInterview($folder.getVisaApplication().getApplicationId()));
+		}
+		else {
+            System.out.println("Issuing visa for #"+$folder.getVisaApplicationId()+" as random "+randomInt+" went over threshold "+threshold);
+            insert(VisaVerdict.issueVisa($folder.getVisaApplicationId()));
+        }
 end
 end template

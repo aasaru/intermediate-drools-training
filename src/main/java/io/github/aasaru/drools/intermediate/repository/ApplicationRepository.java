@@ -116,4 +116,15 @@ public class ApplicationRepository {
 
   }
 
+  public static List<VisaApplicationFolder> getVisaApplicationFoldersWithBookings() {
+
+    return asList(
+            new VisaApplicationFolder(SARAH_PASSPORT, SARAH_VISA_APPLICATION, true, true),
+            new VisaApplicationFolder(SIMON_PASSPORT, SIMON_VISA_APPLICATION, false, false),
+            new VisaApplicationFolder(EMILY_PASSPORT, EMILY_VISA_APPLICATION, false, true),
+            new VisaApplicationFolder(JAMES_PASSPORT, JAMES_VISA_APPLICATION, true, false)
+    );
+
+  }
+
 }

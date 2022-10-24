@@ -23,13 +23,13 @@ public class FilledTemplateToDrl {
 
 
         FileSystemResource templateFile =
-                new FileSystemResource(getFile("io/github/aasaru/drools/intermediate/section04/step" + step + "/step" + step + ".drt"));
+                new FileSystemResource(getFile("io/github/aasaru/drools/intermediate/section04/step" + step + "/ruleTemplates.drt"));
 
         decisionTableConfiguration.addRuleTemplateConfiguration(templateFile, 2, 2);
 
         FileSystemResource
                 dataFile =
-                new FileSystemResource(getFile("io/github/aasaru/drools/intermediate/section04/step" + step + "/step" + step + ".xls"));
+                new FileSystemResource(getFile("io/github/aasaru/drools/intermediate/section04/step" + step + "/data.xls"));
 
         List<String> individualRules = DecisionTableFactory.loadFromInputStreamWithTemplates(dataFile, decisionTableConfiguration);
         generatedDrl = String.join("\\n", individualRules);
