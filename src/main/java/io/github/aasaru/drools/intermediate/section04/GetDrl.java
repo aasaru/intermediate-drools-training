@@ -15,7 +15,7 @@ public class GetDrl {
 
     public static void main(String[] args) {
 
-        int step = Common.promptForStep(4, new String[]{"RULES"}, 1, 3);
+        int step = Common.promptForStep(4, new String[]{"RULES"}, 1, 4);
 
         String generatedDrl = "";
 
@@ -30,7 +30,7 @@ public class GetDrl {
         }
 
         System.out.println();
-        System.out.println(" ######################## RULES FROM TEMPLATE ######################## ");
+        System.out.println(" ######################## ACTUAL RULES ######################## ");
 
         System.out.println();
         System.out.println(generatedDrl);

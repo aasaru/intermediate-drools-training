@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class DetermineVisaVerdict {
 
     public static void main(final String[] args) {
-        int step = Common.promptForStep(4, args, 1, 14);
+        int step = Common.promptForStep(4, args, 1, 4);
         System.out.println("Running step " + step);
 
         if (step == 1) {
@@ -54,10 +54,9 @@ public class DetermineVisaVerdict {
 
             executeInSession(kieSession, step);
         }
+        else if (step == 4) {
 
-
-
-
+        }
 
     }
 
@@ -65,8 +64,8 @@ public class DetermineVisaVerdict {
         Configuration freemarkerConfiguration = getFreemarkerConfiguration();
 
         /* Get the template (uses cache internally) */
-        Template headerTemplate = getTemplate(freemarkerConfiguration, "step3/freemarkerHeader.ftl");
-        Template ruleTemplate = getTemplate(freemarkerConfiguration, "step3/freemarkerTemplate.ftl");
+        Template headerTemplate = getTemplate(freemarkerConfiguration, "step3/freemarkerHeaderTemplate.ftl");
+        Template ruleTemplate = getTemplate(freemarkerConfiguration, "step3/freemarkerRuleTemplate.ftl");
 
         StringWriter out = new StringWriter();
 

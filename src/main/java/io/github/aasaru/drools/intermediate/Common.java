@@ -27,7 +27,12 @@ public class Common {
       try {
         if (args != null && args.length > 0 && args[0].equals("RULES")) {
 
-          System.out.printf("Section %02d. Convert *.xsl to *.drl. Enter step (%d...%d): ", section, minStep, maxStep);
+          if (section == 3) {
+            System.out.printf("Section %02d. Convert *.xsl to *.drl. Enter step (%d...%d): ", section, minStep, maxStep);
+          }
+          else {
+            System.out.printf("Section %02d. Get actual rules. Enter step (%d...%d): ", section, minStep, maxStep);
+          }
           stepStr = br.readLine();
         }
         else if (args != null && args.length > 0) {
