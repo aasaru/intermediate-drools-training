@@ -14,6 +14,7 @@ declare RiskFactor
 end
 
 rule "Missing booking risk factor"
+   salience 10
 when
     $folder: VisaApplicationFolder(
         booking == false
@@ -26,6 +27,7 @@ then
 end
 
 rule "Unemployed risk factor"
+   salience 10
 when
     $folder: VisaApplicationFolder(
         unemployed == true
@@ -38,8 +40,10 @@ then
 end
 
 rule "Reject applications with more than one risk factor"
+   salience 10
 when
     $folder: VisaApplicationFolder()
+    not VisaVerdict(applicationId == $folder.visaApplicationId)
     accumulate (
         RiskFactor ( visaApplicationId == $folder.visaApplicationId );
         $count : count(1);
@@ -48,4 +52,14 @@ when
 then
     System.out.println("Application #" + $folder.getVisaApplicationId() + " has " + $count + " risk factors, rejecting it.");
 	insert(VisaVerdict.rejectVisa($folder.getVisaApplicationId()));
+end
+
+
+rule "Issue visa for all others"
+when
+    $folder: VisaApplicationFolder()
+    not VisaVerdict(applicationId == $folder.visaApplicationId)
+then
+    System.out.println("Issuing visa for #" + $folder.getVisaApplicationId());
+    insert(VisaVerdict.issueVisa($folder.getVisaApplicationId()));
 end
