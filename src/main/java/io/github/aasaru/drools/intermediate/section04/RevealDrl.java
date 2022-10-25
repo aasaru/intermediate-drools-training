@@ -11,11 +11,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
-public class GetDrl {
+public class RevealDrl {
 
     public static void main(String[] args) {
 
-        int step = Common.promptForStep(4, new String[]{"RULES"}, 1, 4);
+        int step = Common.promptForStep(4, new String[]{"RULES"}, 1, 3);
 
         String generatedDrl = "";
 
@@ -57,7 +57,7 @@ public class GetDrl {
     }
 
     private static File getFile(String fileName) {
-        ClassLoader classLoader = GetDrl.class.getClassLoader();
+        ClassLoader classLoader = RevealDrl.class.getClassLoader();
         URL resource = classLoader.getResource(fileName);
         return new File(Objects.requireNonNull(resource).getFile());
     }

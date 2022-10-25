@@ -1,4 +1,4 @@
-package io.github.aasaru.drools.intermediate.section06;
+package io.github.aasaru.drools.intermediate.section05;
 
 import io.github.aasaru.drools.intermediate.TestUtil;
 import io.github.aasaru.drools.intermediate.domain.cep.Call;

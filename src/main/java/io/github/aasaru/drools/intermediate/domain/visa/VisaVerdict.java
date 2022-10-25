@@ -21,6 +21,10 @@ public class VisaVerdict {
         return new VisaVerdict(applicationId, "TOURIST_VISA");
     }
 
+    public static VisaVerdict rejectVisa(Integer applicationId) {
+        return new VisaVerdict(applicationId, "REJECTED");
+    }
+
     public Integer getApplicationId() {
         return applicationId;
     }

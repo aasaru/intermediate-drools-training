@@ -61,31 +61,46 @@
                   row="2" col="2"/>
     <ksession name="VisaVerdictSection04Step1"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step1">
+
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step4" name="section04step4">
+    <ksession name="VisaVerdictSection04Step4"/>
+  </kbase>
+
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step5" name="section04step5">
+    <ksession name="VisaVerdictSection04Step5"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section04.step6" name="section04step6">
+    <ksession name="VisaVerdictSection04Step6"/>
+  </kbase>
+
+
+
+
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step1">
     <ksession name="ComplexEventProcessingStep1"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step2">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step2">
     <ksession name="ComplexEventProcessingStep2"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step3">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step3">
     <ksession name="ComplexEventProcessingStep3"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step4">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step4">
     <ksession name="ComplexEventProcessingStep4"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step5">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step5">
     <ksession name="ComplexEventProcessingStep5"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step6">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step6">
     <ksession name="ComplexEventProcessingStep6"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step7">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step7">
     <ksession name="ComplexEventProcessingStep7"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step8">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step8">
     <ksession name="ComplexEventProcessingStep8"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section06.step9">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step9">
     <ksession name="ComplexEventProcessingStep9"/>
   </kbase>
 

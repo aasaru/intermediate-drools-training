@@ -27,7 +27,7 @@ then
     double threshold = ${percentageToInterview}*100;
     if (randomInt < threshold) {
         System.out.println("Calling #"+$folder.getVisaApplicationId()+" to interview as random "+randomInt+" fell below threshold "+threshold);
-        insert(VisaVerdict.callToInterview($folder.getVisaApplication().getApplicationId()));
+        insert(VisaVerdict.callToInterview($folder.getVisaApplicationId()));
     }
     else {
         System.out.println("Issuing visa for #"+$folder.getVisaApplicationId()+" as random "+randomInt+" went over threshold "+threshold);

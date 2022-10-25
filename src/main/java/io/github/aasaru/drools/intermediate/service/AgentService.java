@@ -5,7 +5,7 @@ import io.github.aasaru.drools.intermediate.domain.cep.Agent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.aasaru.drools.intermediate.section06.ComplexEventProcessing.*;
+import static io.github.aasaru.drools.intermediate.section05.ComplexEventProcessing.*;
 import static java.util.Arrays.asList;
 
 public class AgentService {

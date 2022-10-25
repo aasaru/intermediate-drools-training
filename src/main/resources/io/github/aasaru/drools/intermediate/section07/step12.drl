@@ -4,8 +4,8 @@
 
 package io.github.aasaru.drools.intermediate.section06.step12
 
-import io.github.aasaru.drools.intermediate.section06.Agent;
-import io.github.aasaru.drools.intermediate.section06.Call;
+import io.github.aasaru.drools.intermediate.section05.Agent;
+import io.github.aasaru.drools.intermediate.section05.Call;
 import java.util.List // NB!!!
 
 

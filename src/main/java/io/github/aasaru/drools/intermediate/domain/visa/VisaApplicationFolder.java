@@ -87,7 +87,8 @@ public class VisaApplicationFolder {
                 + ", age:" + passport.getAge()
                 + ", country:" + passport.getCountry()
                 + ((visaFee == null) ?"" :", visaFee="+visaFee)
-                + ((booking == null) ?"" :", hasBooking="+booking)
+                + ((booking == null) ?"" :(booking) ?", hasBooking" :", noBooking")
+                + ((unemployed == null) ?"" :(unemployed) ?", unemployed" :"")
                 + ")";
     }
 

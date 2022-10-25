@@ -1,4 +1,4 @@
-package io.github.aasaru.drools.intermediate.section06;
+package io.github.aasaru.drools.intermediate.section05.internal;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;

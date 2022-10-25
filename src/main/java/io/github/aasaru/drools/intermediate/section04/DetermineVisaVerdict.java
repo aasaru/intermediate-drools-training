@@ -1,5 +1,7 @@
 package io.github.aasaru.drools.intermediate.section04;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -16,6 +18,7 @@ import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.KieRepository;
 import org.kie.api.builder.Message;
+import org.kie.api.definition.type.FactType;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
@@ -30,14 +33,13 @@ import java.util.stream.Collectors;
 
 public class DetermineVisaVerdict {
 
-    public static void main(final String[] args) {
-        int step = Common.promptForStep(4, args, 1, 4);
+    public static void main(final String[] args) throws InstantiationException, IllegalAccessException {
+        int step = Common.promptForStep(4, args, 1, 6);
         System.out.println("Running step " + step);
 
         if (step == 1) {
             KieContainer kieContainer = KieServices.Factory.get().getKieClasspathContainer();
             KieSession kieSession = kieContainer.newKieSession( "VisaVerdictSection04Step" + step );
-
             executeInSession(kieSession, step);
         }
         else if (step == 2) {
@@ -55,9 +57,37 @@ public class DetermineVisaVerdict {
             executeInSession(kieSession, step);
         }
         else if (step == 4) {
+            KieContainer kieContainer = KieServices.Factory.get().getKieClasspathContainer();
+            KieSession kieSession = kieContainer.newKieSession( "VisaVerdictSection04Step" + step );
+            executeInSession(kieSession, step);
+        }
+        else if (step == 5 || step == 6) {
+
+            KieContainer kieContainer = KieServices.Factory.get().getKieClasspathContainer();
+            KieSession kieSession = kieContainer.newKieSession( "VisaVerdictSection04Step" + step );
+
+            Gson gConverter = new GsonBuilder().setPrettyPrinting().create();
+
+            final FactType factTypeDeclaredInDrl = kieContainer
+                    .getKieBase("section04step" + step)
+                    .getFactType("io.github.aasaru.drools.intermediate.section04.step" + step, "RiskFactor");
+
+
+            if (step == 6) {
+                String factAsJson = "{  'visaApplicationId': 1,      'risk': 'CRIMINAL_RECORD'  }";
+
+                Object factToInsert = factTypeDeclaredInDrl.newInstance();
+                Object fo = gConverter.fromJson(factAsJson, factToInsert.getClass());
+                kieSession.insert(fo);
+            }
+
+            executeInSession(kieSession, step);
+
+            List<Object> allRiskFactors = new ArrayList<>(kieSession.getObjects(o -> o.getClass() == factTypeDeclaredInDrl.getFactClass()));
+            String risksAsJson = gConverter.toJson(allRiskFactors);
+            System.out.println("All risks factors as JSON: " + risksAsJson);
 
         }
-
     }
 
     public static String getStep3AsDrl(List<VerdictRuleData> dataAsModelObjectsForFreemarker) {

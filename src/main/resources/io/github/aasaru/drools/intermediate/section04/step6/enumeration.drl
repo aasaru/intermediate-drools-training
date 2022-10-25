@@ -1,0 +1,51 @@
+package io.github.aasaru.drools.intermediate.section04.step6;
+
+import io.github.aasaru.drools.intermediate.domain.visa.*;
+import static java.util.Arrays.asList;
+
+declare enum RiskType
+   MISSING_BOOKING("Applicant doesn't have a booking"), UNEMPLOYED("Applicant is currently unemployed");
+   description : String
+end
+
+declare RiskFactor
+	visaApplicationId: Integer
+	risk : RiskType
+end
+
+rule "Missing booking risk factor"
+when
+    $folder: VisaApplicationFolder(
+        booking == false
+    )
+    not RiskFactor(visaApplicationId == $folder.visaApplicationId, risk == RiskType.MISSING_BOOKING)
+then
+    RiskFactor riskFactor = new RiskFactor($folder.getVisaApplicationId(), RiskType.MISSING_BOOKING);
+    System.out.println("Found " + riskFactor );
+    insert(riskFactor);
+end
+
+rule "Unemployed risk factor"
+when
+    $folder: VisaApplicationFolder(
+        unemployed == true
+    )
+    not RiskFactor(visaApplicationId == $folder.visaApplicationId, risk == RiskType.UNEMPLOYED)
+then
+    RiskFactor riskFactor = new RiskFactor($folder.getVisaApplicationId(), RiskType.UNEMPLOYED);
+    System.out.println("Found " + riskFactor );
+    insert(riskFactor);
+end
+
+rule "Reject applications with more than one risk factor"
+when
+    $folder: VisaApplicationFolder()
+    accumulate (
+        RiskFactor ( visaApplicationId == $folder.visaApplicationId );
+        $count : count(1);
+        $count > 1
+    )
+then
+    System.out.println("Application #" + $folder.getVisaApplicationId() + " has " + $count + " risk factors, rejecting it.");
+	insert(VisaVerdict.rejectVisa($folder.getVisaApplicationId()));
+end

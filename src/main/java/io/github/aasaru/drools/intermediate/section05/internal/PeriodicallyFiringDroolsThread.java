@@ -1,11 +1,11 @@
-package io.github.aasaru.drools.intermediate.section06;
+package io.github.aasaru.drools.intermediate.section05.internal;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;
 
-import static io.github.aasaru.drools.intermediate.section06.ComplexEventProcessing.sleepMs;
+import static io.github.aasaru.drools.intermediate.section05.ComplexEventProcessing.sleepMs;
 
-class PeriodicallyFiringDroolsThread extends Thread implements DroolsThread {
+public class PeriodicallyFiringDroolsThread extends Thread implements DroolsThread {
     int step;
     KieSession kieSession;
 

@@ -1,8 +1,11 @@
-package io.github.aasaru.drools.intermediate.section06;
+package io.github.aasaru.drools.intermediate.section05;
 
 import io.github.aasaru.drools.intermediate.Common;
 import io.github.aasaru.drools.intermediate.domain.cep.Agent;
 import io.github.aasaru.drools.intermediate.domain.cep.Call;
+import io.github.aasaru.drools.intermediate.section05.internal.DroolsThread;
+import io.github.aasaru.drools.intermediate.section05.internal.FiringUntilHaltDroolsThread;
+import io.github.aasaru.drools.intermediate.section05.internal.PeriodicallyFiringDroolsThread;
 import io.github.aasaru.drools.intermediate.service.AgentService;
 import io.github.aasaru.drools.intermediate.service.CallService;
 import org.kie.api.runtime.KieSession;
