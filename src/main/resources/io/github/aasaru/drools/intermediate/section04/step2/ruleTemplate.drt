@@ -43,11 +43,13 @@ rule "Flip coin @{row.rowNumber}"
 		int randomInt = random.ints(0, 100).findFirst().getAsInt();
 		double threshold = @{PERCENT_TO_INTERVIEW}*100;
 		if (randomInt < threshold) {
-			System.out.println("Calling #"+$folder.getVisaApplicationId()+" to interview as random "+randomInt+" fell below threshold "+threshold);
+			System.out.println("Calling #" + $folder.getVisaApplicationId()
+			+ " to interview as random "+randomInt+" fell below threshold "+threshold);
 		    insert(VisaVerdict.callToInterview($folder.getVisaApplicationId()));
 		}
 		else {
-            System.out.println("Issuing visa for #"+$folder.getVisaApplicationId()+" as random "+randomInt+" went over threshold "+threshold);
+            System.out.println("Issuing visa for #" + $folder.getVisaApplicationId() +
+            " as random "+randomInt+" went over threshold "+threshold);
             insert(VisaVerdict.issueVisa($folder.getVisaApplicationId()));
         }
 end

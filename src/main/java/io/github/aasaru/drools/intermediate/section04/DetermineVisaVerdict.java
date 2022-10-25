@@ -246,8 +246,8 @@ public class DetermineVisaVerdict {
         kfs.write("src/main/resources/rules.drl", rules);
 
         KieBuilder kb = ks.newKieBuilder(kfs);
-
         kb.buildAll();
+
         if (kb.getResults().hasMessages(Message.Level.ERROR)) {
             throw new RuntimeException("Build Errors:\n" + kb.getResults().toString());
         }
