@@ -4,7 +4,7 @@ import io.github.aasaru.drools.intermediate.domain.visa.*;
 import static java.util.Arrays.asList;
 
 declare enum RiskType
-   MISSING_BOOKING("Applicant doesn't have a booking"), UNEMPLOYED("Applicant is currently unemployed");
+   MISSING_BOOKING("Applicant doesn't have a booking"), UNEMPLOYED("Applicant is currently unemployed"), CRIMINAL_RECORD("Person has criminal history");
    description : String
 end
 

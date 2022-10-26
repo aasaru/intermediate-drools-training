@@ -77,8 +77,8 @@ public class DetermineVisaVerdict {
                 String factAsJson = "{  'visaApplicationId': 1,      'risk': 'CRIMINAL_RECORD'  }";
 
                 Object factToInsert = factTypeDeclaredInDrl.newInstance();
-                Object fo = gConverter.fromJson(factAsJson, factToInsert.getClass());
-                kieSession.insert(fo);
+                Object factObject = gConverter.fromJson(factAsJson, factToInsert.getClass());
+                kieSession.insert(factObject);
             }
 
             executeInSession(kieSession, step);
