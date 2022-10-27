@@ -23,8 +23,6 @@ public class CallService {
 
         call.setAgent(agent);
         connectedCalls.add(call);
-
-        // actual connecting logic would be here
     }
 
     public void dropCall(Call call, String dropReason) {

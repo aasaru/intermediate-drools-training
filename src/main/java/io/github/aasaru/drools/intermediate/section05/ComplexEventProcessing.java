@@ -95,7 +95,16 @@ public class ComplexEventProcessing {
 
             sleepMs(6000);
 
+            if (step == 8) {
+                droolsThread.getKieSession().halt();
+                droolsThread.getKieSession().dispose();
+            }
+
+
+
             droolsThread.interrupt();
+
+
         }
         else if (step == 10) {
             EntryPoint callsStream = kieSession.getEntryPoint("Calls Stream");

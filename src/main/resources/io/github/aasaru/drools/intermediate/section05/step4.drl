@@ -29,9 +29,10 @@ rule "Nobody at work who speaks the language"
 	dialect "java"
 	when
 		$callToHangUp: Call( )
-		not( Agent( this.speaks($callToHangUp.language) ) from agentService.getAgentsAtWork())
+		not( Agent( this.speaks($callToHangUp.language) ) from agentService.getAgentsAtWork() )
 	then
-		callService.dropCall($callToHangUp, "There are no agents currently at work who speak " + $callToHangUp.getLanguage());
+		callService.dropCall($callToHangUp,
+		"There are no agents currently at work who speak " + $callToHangUp.getLanguage());
 		delete($callToHangUp);
 end
 

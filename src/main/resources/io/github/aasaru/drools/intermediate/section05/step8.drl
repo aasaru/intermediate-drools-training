@@ -15,7 +15,6 @@ declare TimeWaited
 	time : long
 end
 
-
 rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
 	when
@@ -47,11 +46,8 @@ rule "Output queue size and wait time"
 		$averageWaitTime: Double() from accumulate(
 			TimeWaited($waitTime : time) over window:time(4s),
 		average($waitTime))
-
 	then
 		callService.reportQueueSizeAndWaitTime( $queue.size(), $averageWaitTime );
 end
 
-// two rules reporting available agent stats are removed (to reduce noise in logs)
-
-// rule that halts the session has been removed
+// halting has been moved to Java code
