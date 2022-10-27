@@ -237,7 +237,6 @@ public class DetermineVisaVerdict {
         return fees;
     }
 
-
     private static KieContainer loadContainerFromString(String rules) {
         KieServices ks = KieServices.Factory.get();
         KieRepository kr = ks.getRepository();
@@ -254,7 +253,5 @@ public class DetermineVisaVerdict {
         KieContainer kContainer = ks.newKieContainer(kr.getDefaultReleaseId());
         return kContainer;
     }
-
-
 
 }

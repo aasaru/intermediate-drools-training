@@ -73,7 +73,6 @@ class ComplexEventProcessingTest {
         assertThat(callService.connectedCalls.get(0).getCallerPhoneNumber(), is("+1111"));
         assertThat(callService.connectedCalls.get(1).getCallerPhoneNumber(), is("+2222"));
 
-        assertThat(callService.droppedCalls.get(0).getCallerPhoneNumber(), is("+3333"));
     }
 
     @Test
@@ -147,6 +146,8 @@ class ComplexEventProcessingTest {
         ComplexEventProcessing.execute(step, callService, agentService);
 
         assertThat(callService.reportedQueueSizes.size(), is(1));
+        assertThat(callService.reportedMessages.size(), is(1));
+        assertThat(callService.reportedMessages.get(0), is("There have been no calls in queue. Halting."));
     }
 
     @Test
@@ -162,6 +163,8 @@ class ComplexEventProcessingTest {
         ComplexEventProcessing.execute(step, callService, agentService);
 
         assertThat(callService.reportedQueueSizes.size(), is(11));
+        assertThat(callService.reportedMessages.size(), is(1));
+        assertThat(callService.reportedMessages.get(0), is("There have been no calls in queue. Halting."));
     }
 
     @Test
@@ -176,9 +179,19 @@ class ComplexEventProcessingTest {
 
         ComplexEventProcessing.execute(step, callService, agentService);
 
-        assertThat(callService.reportedQueueSizes.get(0), is(0));
-        assertThat(callService.reportedQueueSizes.get(1), is(2));
-        assertThat(callService.reportedQueueSizes.get(2), is(0));
+        assertThat(callService.reportedQueueSizes.get(0), is(2));
+        assertThat(callService.reportedQueueSizes.get(1), is(1));
+        assertThat(callService.reportedQueueSizes.get(2), is(1));
+        assertThat(callService.reportedQueueSizes.get(3), is(1));
+        assertThat(callService.reportedQueueSizes.get(4), is(1));
+        assertThat(callService.reportedQueueSizes.get(5), is(1));
+
+        assertThat(callService.reportedWaitTimes.get(0), is(12.0));
+        assertThat(callService.reportedWaitTimes.get(1), is(8.0));
+        assertThat(callService.reportedWaitTimes.get(2), is(6.0));
+        assertThat(callService.reportedWaitTimes.get(3), is(6.0));
+        assertThat(callService.reportedWaitTimes.get(4), is(4.0));
+        assertThat(callService.reportedWaitTimes.get(5), is(0.0));
     }
 
     @Test
@@ -193,8 +206,46 @@ class ComplexEventProcessingTest {
 
         ComplexEventProcessing.execute(step, callService, agentService);
 
-        assertThat(callService.reportedQueueSizes.get(0), is(0));
+        assertThat(callService.reportedQueueSizes.get(0), is(2));
+        assertThat(callService.reportedQueueSizes.get(1), is(1));
+        assertThat(callService.reportedQueueSizes.get(2), is(1));
+        assertThat(callService.reportedQueueSizes.get(3), is(1));
+        assertThat(callService.reportedQueueSizes.get(4), is(1));
+        assertThat(callService.reportedQueueSizes.get(5), is(1));
 
+        assertThat(callService.reportedWaitTimes.get(0), is(12.0));
+        assertThat(callService.reportedWaitTimes.get(1), is(6.0));
+        assertThat(callService.reportedWaitTimes.get(2), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(3), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(4), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(5), is(0.0));
+    }
+
+    @Test
+    void testStep10() {
+        int step = 10;
+
+        String kieSessionName = "ComplexEventProcessingStep" + step;
+        TestUtil.disposeKieSessionIfExists(kieSessionName);
+
+        CallService callService = new CallService();
+        AgentService agentService = new AgentService();
+
+        ComplexEventProcessing.execute(step, callService, agentService);
+
+        assertThat(callService.reportedQueueSizes.get(0), is(2));
+        assertThat(callService.reportedQueueSizes.get(1), is(1));
+        assertThat(callService.reportedQueueSizes.get(2), is(1));
+        assertThat(callService.reportedQueueSizes.get(3), is(1));
+        assertThat(callService.reportedQueueSizes.get(4), is(1));
+        assertThat(callService.reportedQueueSizes.get(5), is(1));
+
+        assertThat(callService.reportedWaitTimes.get(0), is(12.0));
+        assertThat(callService.reportedWaitTimes.get(1), is(6.0));
+        assertThat(callService.reportedWaitTimes.get(2), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(3), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(4), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(5), is(0.0));
     }
 
     @AfterEach

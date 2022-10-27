@@ -97,11 +97,14 @@
   <kbase packages="io.github.aasaru.drools.intermediate.section05.step7">
     <ksession name="ComplexEventProcessingStep7"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section05.step8">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step8" eventProcessingMode="stream">
     <ksession name="ComplexEventProcessingStep8"/>
   </kbase>
-  <kbase packages="io.github.aasaru.drools.intermediate.section05.step9">
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step9" eventProcessingMode="stream">
     <ksession name="ComplexEventProcessingStep9"/>
+  </kbase>
+  <kbase packages="io.github.aasaru.drools.intermediate.section05.step10" eventProcessingMode="stream">
+    <ksession name="ComplexEventProcessingStep10"/>
   </kbase>
 
   <kbase packages="io.github.aasaru.drools.intermediate.section07.step1">

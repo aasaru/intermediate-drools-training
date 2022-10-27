@@ -1,7 +1,8 @@
-package io.github.aasaru.drools.intermediate.section06.step9
+package io.github.aasaru.drools.intermediate.section05.step9
 
 import io.github.aasaru.drools.intermediate.domain.cep.Agent;
 import io.github.aasaru.drools.intermediate.domain.cep.Call;
+import io.github.aasaru.drools.intermediate.domain.cep.TimeWaitedJavaPojo;
 import io.github.aasaru.drools.intermediate.service.CallService;
 import io.github.aasaru.drools.intermediate.service.AgentService;
 
@@ -10,41 +11,43 @@ import java.util.List;
 global CallService callService;
 global AgentService agentService;
 
+declare TimeWaitedJavaPojo
+	@role( event )
+end
+
+
 rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
 	when
-		$agent: Agent( $agentLanguages : speaksLanguages )
-		$agentLanguage: String() from $agentLanguages
-		$callToPickUp: Call( this.language == $agentLanguage )
+		$agent: Agent()
+		$callToPickUp: Call( $agent.speaks(this.language) )
 		forall (
-			$suitableCall : Call( $agent.speaks(this.language) ),
-			Call( this == $suitableCall, this.callStart >= $callToPickUp.callStart )
+			$candidateCall : Call( $agent.speaks(this.language) ),
+			Call( this == $candidateCall, this.callStart >= $callToPickUp.callStart )
 		)
 	then
 		callService.connectWithAgent($callToPickUp, $agent);
 		delete($agent);
 		delete($callToPickUp);
+		TimeWaitedJavaPojo timeWaited = new TimeWaitedJavaPojo($callToPickUp.getTimeWaited());
+		callService.reportMessage("Inserting " + timeWaited);
+		insert(timeWaited);
 end
 
-rule "Nobody at work who speaks the language"
-	dialect "java"
-	when
-		$callToHangUp: Call( )
-		not( Agent( this.speaks($callToHangUp.language) ) from agentService.getAgentsAtWork())
-	then
-		callService.dropCall($callToHangUp, "There are no agents currently at work who speak " + $callToHangUp.getLanguage());
-		delete($callToHangUp);
-end
-
-rule "Output queue size"
+rule "Output queue size and wait time"
 	dialect "java"
 	salience 100
-	// repeat every 4 seconds
-	timer ( cron: 0/4 * * * * ? )
+	// repeat every 1 second with initial delay of 0 seconds
+	timer ( int: 0s 1s )
 	when
 		$queue : List() from collect( Call() )
+
+		$averageWaitTime: Double() from accumulate(
+			TimeWaitedJavaPojo($waitTime : time) over window:length(2),
+		average($waitTime))
+
 	then
-		callService.reportQueueSize( $queue.size() );
+		callService.reportQueueSizeAndWaitTime( $queue.size(), $averageWaitTime );
 end
 
 // two rules reporting available agent stats are removed (to reduce noise in logs)

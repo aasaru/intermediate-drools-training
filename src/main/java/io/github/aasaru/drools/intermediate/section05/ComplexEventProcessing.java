@@ -6,11 +6,15 @@ import io.github.aasaru.drools.intermediate.domain.cep.Call;
 import io.github.aasaru.drools.intermediate.section05.internal.DroolsThread;
 import io.github.aasaru.drools.intermediate.section05.internal.FiringUntilHaltDroolsThread;
 import io.github.aasaru.drools.intermediate.section05.internal.PeriodicallyFiringDroolsThread;
+import io.github.aasaru.drools.intermediate.section05.internal.TimeUtil;
 import io.github.aasaru.drools.intermediate.service.AgentService;
 import io.github.aasaru.drools.intermediate.service.CallService;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.EntryPoint;
 
 import java.util.Arrays;
+
+import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.getCurrentTime;
 
 public class ComplexEventProcessing {
 
@@ -19,6 +23,7 @@ public class ComplexEventProcessing {
     public static final Agent BOB = new Agent("Bob", Arrays.asList("English", "French"));
     public static final Agent DAVE = new Agent("Dave", Arrays.asList("French", "English"));
     public static final Agent PIERRE = new Agent("Pierre", Arrays.asList("French", "German"));
+
 
     public static void main(String[] args) {
         execute(Common.promptForStep(6, args, 1, 9), new CallService(), new AgentService());
@@ -30,6 +35,7 @@ public class ComplexEventProcessing {
         boolean activeMode = (step >= 5);
 
         if (step == 4) {
+
             System.out.println("here...");
             if (Common.promptForYesNoQuestion("Do you want to run in active mode?")) {
                 activeMode = true;
@@ -56,51 +62,114 @@ public class ComplexEventProcessing {
         KieSession kieSession = droolsThread.getKieSession();
 
         kieSession.setGlobal( "callService", callService);
+
         if (step >= 2) {
             kieSession.setGlobal( "agentService", agentService);
         }
 
+        if (step < 10) {
 
-        droolsThread.start();
+            droolsThread.start();
+            TimeUtil.resetClock();
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(new Call("+1111", "French"));
+            droolsThread.addFactToSession(new Call("+1111", "French"));
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(new Call("+2222", "English"));
+            droolsThread.addFactToSession(new Call("+2222", "English"));
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(new Call("+3333", "Italian"));
+            droolsThread.addFactToSession(new Call("+3333", "Italian"));
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(MARTINA);
+            droolsThread.addFactToSession(MARTINA);
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(DAVE);
+            droolsThread.addFactToSession(DAVE);
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(BOB);
+            droolsThread.addFactToSession(BOB);
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(PIERRE);
+            droolsThread.addFactToSession(PIERRE);
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(new Call("+4444", "German"));
+            droolsThread.addFactToSession(new Call("+4444", "German"));
 
-        sleepMs(300);
+            sleepMs(300);
 
-        droolsThread.addFactToSession(new Call("+5555", "German"));
+            droolsThread.addFactToSession(new Call("+5555", "German"));
 
-        sleepMs(1000);
+            sleepMs(6000);
+        }
+        else if (step == 10) {
+            EntryPoint callsStream = kieSession.getEntryPoint("Calls Stream");
 
+            droolsThread.start();
+            TimeUtil.resetClock();
+
+            sleepMs(300);
+
+            Call call_1111_French = new Call("+1111", "French");
+            logInsertToEntryPoint(call_1111_French, callsStream);
+            callsStream.insert(call_1111_French);
+
+            sleepMs(300);
+
+            Call call_2222_English = new Call("+2222", "English");
+            logInsertToEntryPoint(call_2222_English, callsStream);
+            callsStream.insert(call_2222_English);
+
+            sleepMs(300);
+
+            Call call_3333_Italian = new Call("+3333", "Italian");
+            logInsertToEntryPoint(call_3333_Italian, callsStream);
+            callsStream.insert(call_3333_Italian);
+
+            sleepMs(300);
+
+            droolsThread.addFactToSession(MARTINA);
+
+            sleepMs(300);
+
+            droolsThread.addFactToSession(DAVE);
+
+            sleepMs(300);
+
+            droolsThread.addFactToSession(BOB);
+
+            sleepMs(300);
+
+            droolsThread.addFactToSession(PIERRE);
+
+            sleepMs(300);
+
+            Call call_4444_German = new Call("+4444", "German");
+            logInsertToEntryPoint(call_4444_German, callsStream);
+            callsStream.insert(call_4444_German);
+
+            sleepMs(300);
+
+            Call call_5555_German = new Call("+5555", "German");
+            logInsertToEntryPoint(call_5555_German, callsStream);
+            callsStream.insert(call_5555_German);
+
+            sleepMs(6000);
+
+        }
+
+    }
+
+    private static void logInsertToEntryPoint(Call call, EntryPoint entryPoint) {
+        System.out.println(getCurrentTime() + "Inserting " + call + " to '" + entryPoint + "'");
     }
 
     public static void sleepMs(int millis) {

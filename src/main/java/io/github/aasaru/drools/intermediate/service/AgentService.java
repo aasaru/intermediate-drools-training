@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.aasaru.drools.intermediate.section05.ComplexEventProcessing.*;
+import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.getCurrentTime;
 import static java.util.Arrays.asList;
 
 public class AgentService {
@@ -17,6 +18,7 @@ public class AgentService {
     }
 
     public void reportAgentStats(String message) {
+        System.out.print(getCurrentTime());
         System.out.println(message);
         reportedAgentStats.add(message);
     }

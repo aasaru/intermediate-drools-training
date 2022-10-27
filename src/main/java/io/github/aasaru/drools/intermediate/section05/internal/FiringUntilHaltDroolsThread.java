@@ -3,6 +3,8 @@ package io.github.aasaru.drools.intermediate.section05.internal;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;
 
+import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.getCurrentTime;
+
 public class FiringUntilHaltDroolsThread extends Thread implements DroolsThread {
 
     int step;
@@ -19,6 +21,7 @@ public class FiringUntilHaltDroolsThread extends Thread implements DroolsThread 
     }
 
     public void addFactToSession(Object o) {
+        System.out.print(getCurrentTime());
         System.out.println("Inserting to session: " + o);
         kieSession.insert(o);
     }

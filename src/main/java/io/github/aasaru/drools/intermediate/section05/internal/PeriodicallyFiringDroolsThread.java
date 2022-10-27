@@ -4,6 +4,7 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSession;
 
 import static io.github.aasaru.drools.intermediate.section05.ComplexEventProcessing.sleepMs;
+import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.getCurrentTime;
 
 public class PeriodicallyFiringDroolsThread extends Thread implements DroolsThread {
     int step;
@@ -22,6 +23,8 @@ public class PeriodicallyFiringDroolsThread extends Thread implements DroolsThre
 
     @Override
     public void addFactToSession(Object o) {
+        System.out.print(getCurrentTime());
+
         System.out.println("Inserting to session: " + o);
         kieSession.insert(o);
     }

@@ -1,7 +1,8 @@
-package io.github.aasaru.drools.intermediate.section05.step8
+package io.github.aasaru.drools.intermediate.section05.step10
 
 import io.github.aasaru.drools.intermediate.domain.cep.Agent;
 import io.github.aasaru.drools.intermediate.domain.cep.Call;
+import io.github.aasaru.drools.intermediate.domain.cep.TimeWaitedJavaPojo;
 import io.github.aasaru.drools.intermediate.service.CallService;
 import io.github.aasaru.drools.intermediate.service.AgentService;
 
@@ -10,9 +11,8 @@ import java.util.List;
 global CallService callService;
 global AgentService agentService;
 
-declare TimeWaited
+declare TimeWaitedJavaPojo
 	@role( event )
-	time : long
 end
 
 
@@ -20,21 +20,19 @@ rule "Connect an agent with a suitable call that has earliest start"
 	dialect "java"
 	when
 		$agent: Agent()
-		$callToPickUp: Call( $agent.speaks(this.language) )
+		$callToPickUp: Call( $agent.speaks(this.language) ) from entry-point "Calls Stream"
 		forall (
-			$candidateCall : Call( $agent.speaks(this.language) ),
+			$candidateCall : Call( $agent.speaks(this.language) ) from entry-point "Calls Stream",
 			Call( this == $candidateCall, this.callStart >= $callToPickUp.callStart )
 		)
 	then
 		callService.connectWithAgent($callToPickUp, $agent);
 		delete($agent);
 		delete($callToPickUp);
-		TimeWaited timeWaited = new TimeWaited($callToPickUp.getTimeWaited());
+		TimeWaitedJavaPojo timeWaited = new TimeWaitedJavaPojo($callToPickUp.getTimeWaited());
 		callService.reportMessage("Inserting " + timeWaited);
 		insert(timeWaited);
 end
-
-// removed rule "Nobody at work who speaks the language"
 
 rule "Output queue size and wait time"
 	dialect "java"
@@ -42,10 +40,10 @@ rule "Output queue size and wait time"
 	// repeat every 1 second with initial delay of 0 seconds
 	timer ( int: 0s 1s )
 	when
-		$queue : List() from collect( Call() )
+		$queue : List() from collect( Call() from entry-point "Calls Stream" )
 
 		$averageWaitTime: Double() from accumulate(
-			TimeWaited($waitTime : time) over window:time(4s),
+			TimeWaitedJavaPojo($waitTime : time) over window:length(2),
 		average($waitTime))
 
 	then

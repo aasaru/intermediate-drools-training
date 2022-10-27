@@ -11,9 +11,6 @@ public class Agent {
 
     Collection<String> speaksLanguages;
 
-    // set to true if agent want's to take a break after the ongoing call
-    boolean goesAway = false;
-
     public Agent(String name, Collection<String> speaksLanguages) {
         this.name = name;
         this.speaksLanguages = speaksLanguages;
@@ -30,8 +27,8 @@ public class Agent {
     @Override
     public String toString() {
         return "Agent{" +
-             "name='" + name + '\'' +
-             ",speaksLanguages='" + String.join("','", speaksLanguages) + '\'' +
+             "" + name +
+             ", who speaks " + String.join(", ", speaksLanguages) +
              '}';
     }
 

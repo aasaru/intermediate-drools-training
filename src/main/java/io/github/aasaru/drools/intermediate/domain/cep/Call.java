@@ -3,9 +3,9 @@ package io.github.aasaru.drools.intermediate.domain.cep;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
-// TODO builder
 public class Call {
 
     int customerValue;
@@ -16,7 +16,7 @@ public class Call {
 
     String language;
 
-    // if agent==null => is in waiting line
+    // agent==null means this call is in waiting line
     Agent agent;
 
     String dropReason;
@@ -59,11 +59,15 @@ public class Call {
         return customerValue;
     }
 
+    public long getTimeWaited() {
+        return Duration.between(callStart, LocalDateTime.now()).toMillis()/100;
+    }
+
     @Override
     public String toString() {
         return "Call{" +
-             "callerPhoneNumber='" + callerPhoneNumber + '\'' +
-             ",language='" + language + '\'' +
+             "from number " + callerPhoneNumber +
+             ", in " + language +
              (customerValue == 0 ?"" :",customerValue="+customerValue) +
              '}';
     }

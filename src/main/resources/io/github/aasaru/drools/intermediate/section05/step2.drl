@@ -1,19 +1,18 @@
-package io.github.aasaru.drools.intermediate.section06.step2
+package io.github.aasaru.drools.intermediate.section05.step2
 
 import io.github.aasaru.drools.intermediate.domain.cep.Agent;
 import io.github.aasaru.drools.intermediate.domain.cep.Call;
-
 import io.github.aasaru.drools.intermediate.service.CallService;
 import io.github.aasaru.drools.intermediate.service.AgentService;
+
 global CallService callService;
 global AgentService agentService;
 
 rule "Connect an agent with a suitable call"
 	dialect "java"
 	when
-		$agent: Agent( $agentLanguages : speaksLanguages )
-		$agentLanguage: String() from $agentLanguages
-		$callToPickUp: Call( this.language == $agentLanguage )
+		$agent: Agent()
+		$callToPickUp: Call( $agent.speaks(this.language) )
 	then
 		callService.connectWithAgent($callToPickUp, $agent);
 		delete($agent);
@@ -26,6 +25,6 @@ rule "Nobody at work who speaks the language"
 		$callToHangUp: Call( )
 		not( Agent( this.speaks($callToHangUp.language) ) from agentService.getAgentsAtWork())
 	then
-		callService.dropCall($callToHangUp, "There are no agents currently at work who speak '" + $callToHangUp.getLanguage());
+		callService.dropCall($callToHangUp, "There are no agents currently at work who speak " + $callToHangUp.getLanguage());
 		delete($callToHangUp);
 end

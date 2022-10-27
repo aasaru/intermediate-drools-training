@@ -6,15 +6,20 @@ import io.github.aasaru.drools.intermediate.domain.cep.Call;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.getCurrentTime;
+
 public class CallService {
 
     public List<Call> connectedCalls = new ArrayList<>();
     public List<Call> droppedCalls = new ArrayList<>();
 
     public List<Integer> reportedQueueSizes = new ArrayList<>();
+    public List<String> reportedMessages = new ArrayList<>();
+    public List<Double> reportedWaitTimes = new ArrayList<>();
 
     public void connectWithAgent(Call call, Agent agent) {
-        System.out.println("Connecting " + call + " with " + agent);
+        System.out.print(getCurrentTime());
+        System.out.println(">> Connecting " + agent + " with " + call);
 
         call.setAgent(agent);
         connectedCalls.add(call);
@@ -23,14 +28,29 @@ public class CallService {
     }
 
     public void dropCall(Call call, String dropReason) {
-        System.out.println("Dropping " + call + " because " + dropReason);
+        System.out.print(getCurrentTime());
+        System.out.println("<< Dropping " + call + " because " + dropReason);
         call.setDropReason(dropReason);
         droppedCalls.add(call);
     }
 
     public void reportQueueSize(Integer queueSize) {
-        System.out.println( "Queue size: " + queueSize);
+        System.out.print(getCurrentTime());
+        System.out.println( "-- Queue size: " + queueSize);
         reportedQueueSizes.add(queueSize);
+    }
+
+    public void reportQueueSizeAndWaitTime(Integer queueSize, Double averageWaitTime) {
+        System.out.print(getCurrentTime());
+        System.out.println( "-- Queue size: " + queueSize + " and average wait time: " + averageWaitTime + "s");
+        reportedQueueSizes.add(queueSize);
+        reportedWaitTimes.add(averageWaitTime);
+    }
+
+    public void reportMessage(String message) {
+        System.out.print(getCurrentTime());
+        System.out.println(message);
+        reportedMessages.add(message);
     }
 
 }
