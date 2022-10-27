@@ -5,7 +5,7 @@ import io.github.aasaru.drools.intermediate.domain.cep.Agent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.aasaru.drools.intermediate.section05.ComplexEventProcessing.*;
+import static io.github.aasaru.drools.intermediate.repository.AgentRepository.*;
 import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.getCurrentTime;
 import static java.util.Arrays.asList;
 

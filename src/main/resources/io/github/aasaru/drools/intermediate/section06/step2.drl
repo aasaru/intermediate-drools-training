@@ -1,12 +1,5 @@
-package io.github.aasaru.drools.intermediate.section07.step2
+package io.github.aasaru.drools.intermediate.section06.step2
 
-import java.util.Set;
-
-import io.github.aasaru.drools.intermediate.domain.cep.Agent;
-import io.github.aasaru.drools.intermediate.domain.cep.Call;
-
-import io.github.aasaru.drools.intermediate.service.CallService;
-import io.github.aasaru.drools.intermediate.service.AgentService;
 global CallService callService;
 global AgentService agentService;
 

@@ -6,7 +6,6 @@ import io.github.aasaru.drools.intermediate.service.AgentService;
 import io.github.aasaru.drools.intermediate.service.CallService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.kie.api.runtime.KieSession;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +30,6 @@ class ComplexEventProcessingTest {
 
         ComplexEventProcessing.execute(step, callService, agentService);
 
-        KieSession ksession = TestUtil.getKieSession("ComplexEventProcessingStep", step);
-
         List<String> firstCalls = asList(callService.connectedCalls.get(0).getCallerPhoneNumber(), callService.connectedCalls.get(1).getCallerPhoneNumber());
         assertThat(firstCalls, containsInAnyOrder("+1111", "+2222"));
 
@@ -52,7 +49,6 @@ class ComplexEventProcessingTest {
 
         ComplexEventProcessing.execute(step, callService, agentService);
 
-        KieSession ksession = TestUtil.getKieSession("ComplexEventProcessingStep", step);
         assertThat(callService.droppedCalls.get(0).getCallerPhoneNumber(), is("+3333"));
     }
 
@@ -67,8 +63,6 @@ class ComplexEventProcessingTest {
         AgentService agentService = new AgentService();
 
         ComplexEventProcessing.execute(step, callService, agentService);
-
-        KieSession ksession = TestUtil.getKieSession("ComplexEventProcessingStep", step);
 
         assertThat(callService.connectedCalls.get(0).getCallerPhoneNumber(), is("+1111"));
         assertThat(callService.connectedCalls.get(1).getCallerPhoneNumber(), is("+2222"));
@@ -191,7 +185,6 @@ class ComplexEventProcessingTest {
         assertThat(callService.reportedWaitTimes.get(2), is(6.0));
         assertThat(callService.reportedWaitTimes.get(3), is(6.0));
         assertThat(callService.reportedWaitTimes.get(4), is(4.0));
-        assertThat(callService.reportedWaitTimes.get(5), is(0.0));
     }
 
     @Test

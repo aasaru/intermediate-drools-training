@@ -1,25 +1,17 @@
-package io.github.aasaru.drools.intermediate.section07;
+package io.github.aasaru.drools.intermediate.section06;
 
 import io.github.aasaru.drools.intermediate.Common;
-import io.github.aasaru.drools.intermediate.domain.cep.Agent;
 import io.github.aasaru.drools.intermediate.domain.cep.Call;
 import io.github.aasaru.drools.intermediate.section05.internal.DroolsThread;
 import io.github.aasaru.drools.intermediate.section05.internal.FiringUntilHaltDroolsThread;
+import io.github.aasaru.drools.intermediate.section05.internal.TimeUtil;
 import io.github.aasaru.drools.intermediate.service.AgentService;
 import io.github.aasaru.drools.intermediate.service.CallService;
 import org.kie.api.runtime.KieSession;
 
-import java.util.Arrays;
+import static io.github.aasaru.drools.intermediate.repository.AgentRepository.*;
 
 public class AccumulateCustomerValue {
-
-    // TODO java 11 or 17?
-
-    // TODO move to agent repo
-    public static final Agent AGENT_MARTINA = new Agent("Martina", Arrays.asList("German", "Japanese"));
-    public static final Agent AGENT_BOB = new Agent("Bob", Arrays.asList("English", "French"));
-    public static final Agent AGENT_DAVE = new Agent("Dave", Arrays.asList("French", "English"));
-    public static final Agent AGENT_PIERRE = new Agent("Pierre", Arrays.asList("French", "German"));
 
     public static void main(String[] args) {
         execute(Common.promptForStep(7, args, 1, 9), new CallService(), new AgentService());
@@ -28,7 +20,7 @@ public class AccumulateCustomerValue {
     static DroolsThread droolsThread;
 
     static void execute(int step, CallService callService, AgentService agentService) {
-
+        TimeUtil.resetClock();
         System.out.println("Running in active mode.");
         droolsThread = new FiringUntilHaltDroolsThread(step, "AccumulateCustomerValueStep");
 
@@ -55,19 +47,19 @@ public class AccumulateCustomerValue {
 
         sleepMs(300);
 
-        droolsThread.addFactToSession(AGENT_MARTINA);
+        droolsThread.addFactToSession(MARTINA);
 
         sleepMs(300);
 
-        droolsThread.addFactToSession(AGENT_DAVE);
+        droolsThread.addFactToSession(DAVE);
 
         sleepMs(300);
 
-        droolsThread.addFactToSession(AGENT_BOB);
+        droolsThread.addFactToSession(BOB);
 
         sleepMs(300);
 
-        droolsThread.addFactToSession(AGENT_PIERRE);
+        droolsThread.addFactToSession(PIERRE);
 
         sleepMs(300);
 
