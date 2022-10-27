@@ -17,7 +17,7 @@ import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.g
 public class ComplexEventProcessing {
 
     public static void main(String[] args) {
-        execute(Common.promptForStep(6, args, 1, 9), new CallService(), new AgentService());
+        execute(Common.promptForStep(6, args, 1, 10), new CallService(), new AgentService());
     }
 
     static DroolsThread droolsThread;
@@ -94,6 +94,8 @@ public class ComplexEventProcessing {
             droolsThread.addFactToSession(new Call("+5555", "German"));
 
             sleepMs(6000);
+
+            droolsThread.interrupt();
         }
         else if (step == 10) {
             EntryPoint callsStream = kieSession.getEntryPoint("Calls Stream");

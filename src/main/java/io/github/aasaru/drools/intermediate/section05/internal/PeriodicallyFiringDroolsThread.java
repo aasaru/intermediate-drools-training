@@ -8,12 +8,13 @@ import static io.github.aasaru.drools.intermediate.section05.internal.TimeUtil.g
 
 public class PeriodicallyFiringDroolsThread extends Thread implements DroolsThread {
     int step;
+    boolean run = false;
     KieSession kieSession;
 
     public PeriodicallyFiringDroolsThread(int step) {
         this.step = step;
         kieSession = KieServices.Factory.get().getKieClasspathContainer().newKieSession("ComplexEventProcessingStep" + step);
-
+        run = true;
     }
 
     @Override
@@ -29,8 +30,13 @@ public class PeriodicallyFiringDroolsThread extends Thread implements DroolsThre
         kieSession.insert(o);
     }
 
+    @Override
+    public void interrupt() {
+        run = false;
+    }
+
     public void run() {
-        while (true) {
+        while (run) {
             kieSession.fireAllRules();
             sleepMs(500);
         }
