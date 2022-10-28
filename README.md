@@ -1,4 +1,6 @@
-# Drools course training materials [![Build Status](https://api.travis-ci.com/aasaru/intermediate-drools-training.svg?branch=master)](https://travis-ci.com/aasaru/intermediate-drools-training)
+# Drools course training materials
+
+[![Build](https://github.com/aasaru/intermediate-drools-training/actions/workflows/maven.yml/badge.svg)](https://github.com/aasaru/intermediate-drools-training/actions/workflows/maven.yml)
 
 This project is part of Drools video course - 
 "Master Drools - from Intermediate to Expert"

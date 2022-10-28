@@ -217,11 +217,11 @@ class ComplexEventProcessingTest {
         assertThat(callService.reportedQueueSizes.get(5), is(1));
 
         assertThat(callService.reportedWaitTimes.get(0), is(12.0));
-        assertThat(callService.reportedWaitTimes.get(1), is(6.0));
-        assertThat(callService.reportedWaitTimes.get(2), is(0.0));
-        assertThat(callService.reportedWaitTimes.get(3), is(0.0));
-        assertThat(callService.reportedWaitTimes.get(4), is(0.0));
-        assertThat(callService.reportedWaitTimes.get(5), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(1), is(8.0));
+        assertThat(callService.reportedWaitTimes.get(2), is(4.0));
+        assertThat(callService.reportedWaitTimes.get(3), is(4.0));
+        assertThat(callService.reportedWaitTimes.get(4), is(4.0));
+        assertThat(callService.reportedWaitTimes.get(5), is(4.0));
     }
 
     @Test
@@ -244,11 +244,11 @@ class ComplexEventProcessingTest {
         assertThat(callService.reportedQueueSizes.get(5), is(1));
 
         assertThat(callService.reportedWaitTimes.get(0), is(12.0));
-        assertThat(callService.reportedWaitTimes.get(1), is(6.0));
-        assertThat(callService.reportedWaitTimes.get(2), is(0.0));
-        assertThat(callService.reportedWaitTimes.get(3), is(0.0));
-        assertThat(callService.reportedWaitTimes.get(4), is(0.0));
-        assertThat(callService.reportedWaitTimes.get(5), is(0.0));
+        assertThat(callService.reportedWaitTimes.get(1), is(8.0));
+        assertThat(callService.reportedWaitTimes.get(2), is(4.0));
+        assertThat(callService.reportedWaitTimes.get(3), is(4.0));
+        assertThat(callService.reportedWaitTimes.get(4), is(4.0));
+        assertThat(callService.reportedWaitTimes.get(5), is(4.0));
     }
 
     @AfterEach
