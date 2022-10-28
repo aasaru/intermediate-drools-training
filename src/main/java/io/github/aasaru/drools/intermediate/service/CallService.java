@@ -40,7 +40,7 @@ public class CallService {
 
     public void reportQueueSizeAndWaitTime(Integer queueSize, Double averageWaitTime) {
         System.out.print(getCurrentTime());
-        System.out.println( "-- Queue size: " + queueSize + " and average wait time: " + averageWaitTime + "s");
+        System.out.println( "-- Queue size: " + queueSize + " and average wait time: " + averageWaitTime + "");
         reportedQueueSizes.add(queueSize);
         reportedWaitTimes.add(averageWaitTime);
     }

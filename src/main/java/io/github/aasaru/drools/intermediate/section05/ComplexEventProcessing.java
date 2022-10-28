@@ -95,7 +95,7 @@ public class ComplexEventProcessing {
 
             sleepMs(6000);
 
-            if (step == 8) {
+            if (step >= 8) {
                 droolsThread.getKieSession().halt();
                 droolsThread.getKieSession().dispose();
             }

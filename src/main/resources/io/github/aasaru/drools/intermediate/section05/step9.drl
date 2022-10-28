@@ -29,7 +29,7 @@ rule "Connect an agent with a suitable call that has earliest start"
 		delete($agent);
 		delete($callToPickUp);
 		TimeWaitedJavaPojo timeWaited = new TimeWaitedJavaPojo($callToPickUp.getTimeWaited());
-		callService.reportMessage("Inserting " + timeWaited);
+		callService.reportMessage("INSERTING " + timeWaited);
 		insert(timeWaited);
 end
 
@@ -42,7 +42,7 @@ rule "Output queue size and wait time"
 		$queue : List() from collect( Call() )
 
 		$averageWaitTime: Double() from accumulate(
-			TimeWaitedJavaPojo($waitTime : time) over window:length(2),
+			TimeWaitedJavaPojo($waitTime : time) over window:length(3),
 		average($waitTime))
 	then
 		callService.reportQueueSizeAndWaitTime( $queue.size(), $averageWaitTime );
