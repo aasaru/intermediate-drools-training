@@ -12,7 +12,7 @@
   <properties>
     <java.module.name>io.github.aasaru.drools.intermediate</java.module.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <drools.version>7.63.0.Final</drools.version>
+    <drools.version>7.74.0.Final</drools.version>
 
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
